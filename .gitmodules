@@ -1,0 +1,3 @@
+[submodule "external/pgvector"]
+	path = external/pgvector
+	url = https://github.com/pgvector/pgvector
