@@ -15,3 +15,5 @@ _deps
 [Bb][Uu][Ii][Ll][Dd]
 
 *~
+
+external/postgresql-15.4
