@@ -17,3 +17,4 @@ _deps
 *~
 
 external/postgresql-15.4
+.dbaccess

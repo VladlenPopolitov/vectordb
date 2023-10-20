@@ -28,3 +28,23 @@ cd external/pgvector
 make USE_PGXS=1
 # 3) install extension
 make USE_PGXS=1 install
+
+# install Perl support for Postgresql
+cpan DBD::Pg
+# ini file support to load site cpecific data
+cpan Config::IniFiles
+
+create local ini files with database cridentials
+File src/benchmark1/db.ini with content
+[postgresql]
+adminuser=userNameToCreateDatabases
+adminpass=passwordOfadminuser
+
+in every algorithm folder create db.ini
+[postgresql]
+dbname=dataBaseNameForThisAlgorithm
+user=userName
+pass=userPassword
+
+
+
