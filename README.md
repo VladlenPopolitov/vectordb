@@ -46,5 +46,10 @@ dbname=dataBaseNameForThisAlgorithm
 user=userName
 pass=userPassword
 
+# install PDL (Perl Data Language) - packages to read HDF5 datasets woth sample vectors
+cpanm install PDL
+cpanm install PDL::IO::HDF5
+
+
 
 

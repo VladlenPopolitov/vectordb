@@ -17,4 +17,7 @@ _deps
 *~
 
 external/postgresql-15.4
+db.ini
 .dbaccess
+*.hdf5
+
