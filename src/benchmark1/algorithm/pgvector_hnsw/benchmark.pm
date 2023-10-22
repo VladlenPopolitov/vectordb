@@ -1,5 +1,10 @@
 package pgvector_hnsw::benchmark;
-#use strict;
+use strict;
+use DBI;
+use PDL;
+use PDL::IO::HDF5;
+#use PDL::NiceSlice;
+#use PDL::IO::Dumper;
 
 sub new {
     my $class = shift;
@@ -9,7 +14,8 @@ sub new {
         dbname => $dbname ,
         user => $user,
         password => $password ,
-        width => 0
+        width => 0,
+        distancetype=>''
      };
     bless $self, $class;
     return $self;
@@ -51,6 +57,10 @@ sub init_database {
     my ($self,$dbh) = @_;
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         $dbh->do("CREATE EXTENSION IF NOT EXISTS vector");
+        $dbh->do("GRANT USAGE ON SCHEMA public TO ".$self->{user});
+        $dbh->do("GRANT ALL ON SCHEMA public TO ".$self->{user});
+        $dbh->do("GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ".$self->{user});
+        $dbh->do("GRANT pg_write_all_data TO ".$self->{user});
         return 1;
     } else {
         die "Algorithm ".$self->name()." database credentials not set in db.ini";
@@ -59,14 +69,110 @@ sub init_database {
 }
 
 sub init_table {
-    my ($self,$dbh,$width) = @_;
+    my ($self,$data) = @_;
+    my $width = $data->width();
+    my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        my $dbh=DBI->connect('dbi:Pg:dbname='.$self->{dbname}, $self->{user}, $self->{password}, {AutoCommit => 1});
         $self->{width}=$width;
-        $dbh->do("DROP TABLE IF EXISTS items");
-        $dbh->do("CREATE TABLE items (id int, embedding vector($width))");
-        $dbh->do("ALTER TABLE items ALTER COLUMN embedding SET STORAGE PLAIN");
+        $dbh->do("DROP TABLE IF EXISTS public."."$table");
+        $dbh->do("CREATE TABLE public."."$table (id int, embedding vector($width))");
+        $dbh->do("ALTER TABLE public."."$table ALTER COLUMN embedding SET STORAGE PLAIN");
         
+        return $dbh;
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
+sub insert_from_data {
+    my ($self,$dbh, $data, $totalLines) = @_;
+    my $table = $data->tablename();
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
+        my $sth=$dbh->do("COPY public.$table (id,embedding) FROM STDIN");
+        for(my $record=0;$record<$totalLines;++$record){
+            my $line=$data->getline_format1($record) ; # {pdlref}->($widthFirst:$widthLast,($record)); $line=~ s/[ ]+/,/g;
+            $dbh->func($record."\t".$line."\n", 'putline');
+        }
+        $dbh->func("\\.\n", 'putline');
+        $dbh->func('endcopy');
+        $self->{distancetype}=$data->distancetype();
         return 1;
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
+sub create_index {
+    my ($self, $dbh, $data,$parameters) = @_;
+    my $table = $data->tablename();
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        my ($m,$fConstruction)=($parameters->{m},$parameters->{fConstruction});
+        
+        if($self->{distancetype} eq 'a') { # angular 
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx  ON public.$table USING hnsw (embedding vector_cosine_ops) WITH (m = $m, ef_construction = $fConstruction)");
+        } elsif ($self->{distancetype} eq 'l2') { # L2 distance - euclidian - x**2+y**2+... 
+         my $sth=$dbh->do("CREATE INDEX ON ${table}_embeded_idx USING hnsw (embedding vector_l2_ops) WITH (m = $m, ef_construction = $fConstruction)");
+        }
+        return 1;
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
+
+sub drop_index {
+    my ($self, $dbh, $data,$parameters) = @_;
+    my $table = $data->tablename();
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        my ($lists)=$parameters->{lists};
+        my $sth=$dbh->do("DROP INDEX IF EXISTS public.${table}_embeded_idx ");
+        return 1;
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
+
+sub index_size {
+    my ($self, $dbh, $data) = @_;
+    my $table = $data->tablename();
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
+        
+         my $sth=$dbh->prepare("SELECT pg_relation_size('public.${table}_embeded_idx')");
+         $sth->execute();
+         my @row = $sth->fetchrow_array();
+         if(@row){
+            return $row[0];
+         } else {
+            return 0;
+         }
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
+sub table_size {
+    my ($self, $dbh, $data) = @_;
+    my $table = $data->tablename();
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
+        
+         my $sth=$dbh->prepare("SELECT pg_relation_size('${table}')");
+         $sth->execute();
+         my @row = $sth->fetchrow_array();
+         if(@row){
+            return $row[0];
+         } else {
+            return 0;
+         }
     } else {
         die "Algorithm ".$self->name()." database credentials not set in db.ini";
         return 0;
