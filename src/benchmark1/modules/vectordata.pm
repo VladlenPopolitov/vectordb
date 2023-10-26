@@ -11,9 +11,19 @@ my $vectordata = {
         type => 'a', 
         record=>'train' , 
         http=> 'http://ann-benchmarks.com/glove-100-angular.hdf5',
-        tablename => 'items1',
-        indexname => 'items1_idx'
-        } 
+        tablename => 'items2',
+        indexname => 'items2_idx',
+        size=>'463M'
+    } ,
+    'lastfm' => 
+    {   file => "../../vectordata/lastfm-64-dot.hdf5", 
+        type => 'a', 
+        record=>'train' , 
+        http=> 'http://ann-benchmarks.com/lastfm-64-dot.hdf5',
+        tablename => 'itemslastfm',
+        indexname => 'itemslastfm_idx',
+        size=>'135M'
+    }
 };
 
 sub new {
@@ -30,20 +40,20 @@ sub new {
      };
      my $datainfo=$vectordata->{$name};
      if( defined($datainfo)){
+        $self->{name}= $name; 
+        $self->{filename}= $datainfo->{file} ; 
+        $self->{recordname}= $datainfo->{record}; 
+        $self->{tablename}=$datainfo->{tablename};
+        $self->{indexname}=$datainfo->{indexname};
         if( -f $datainfo->{file} ) {
          my $newfile = new PDL::IO::HDF5($datainfo->{file});
          my $dataset=$newfile->dataset($datainfo->{record});
          my $pdl = $dataset->get();
          my ($width,$length)=$dataset->dims();
-         if(defined($dataset) && $width>0 && $length>0){
-            $self->{name}= $name; 
-            $self->{filename}= $datainfo->{file} ; 
-            $self->{recordname}= $datainfo->{record}; 
+         if(defined($dataset) && $width>0 && $length>0){   
             $self->{width}= $width; 
             $self->{length}= $length; 
-            $self->{pdlref}= $pdl ; 
-            $self->{tablename}=$datainfo->{tablename};
-            $self->{indexname}=$datainfo->{indexname};
+            $self->{pdlref}= $pdl ;             
             $self->{loaded}= 1 ; 
          }
         }
@@ -53,13 +63,13 @@ sub new {
 }
 
 sub NAME {
-    my $num = @_;
+    my ($num) = @_;
     my @names=sort keys %$vectordata;
     return $names[$num];
 }
 
 sub LENGTH {
-    my $num = @_;
+    my ($num) = @_;
     my @names=sort keys %$vectordata;
     return scalar(@names);
 }
@@ -103,6 +113,16 @@ sub length {
 sub distancetype {
     my ($self) = @_;
     return $vectordata->{$self->{name}}->{type};
+}
+
+sub filesize {
+    my ($self) = @_;
+    return $vectordata->{$self->{name}}->{size};
+}
+
+sub http {
+    my ($self) = @_;
+    return $vectordata->{$self->{name}}->{http};
 }
 
 sub tablename {

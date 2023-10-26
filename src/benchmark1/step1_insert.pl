@@ -16,7 +16,7 @@ use modules::vectordata;
 use modules::logresult;
 
 
-my $datasetname="glove-100-a";
+my $datasetname="lastfm";
 
 my $dirname = dirname(abs_path(__FILE__));
 my (@algodirs)=<$dirname/algorithm/*>;
@@ -25,7 +25,7 @@ my $logresults=modules::logresult->new($dirname);
 
 foreach my $algodir (@algodirs) {
  my $algoname=basename($algodir);
- my @benchmarkRecords= (5000); #  (10,100,1000,5000,10000,50000,100000,500000,-1);
+ my @benchmarkRecords= (10,100,1000,5000,10000,50000,100000); # (5000); #  (10,100,1000,5000,10000,50000,100000,500000,-1);
  foreach my $i (@benchmarkRecords) {
   insert_and_index_algorithm($algoname,$datasetname,$i);
  }
@@ -50,6 +50,9 @@ sub insert_and_index_algorithm {
         print " , class name >>".$class->name()."<<\n";
         {
             my $data=modules::vectordata->new($datasetname);
+            if($numlines>$data->length()){
+                return 0;
+            }
             if($numlines == -1) {$numlines=$data->length();}
             if($numlines > $data->length() ) {$numlines=$data->length();}
             print "Dataset ".$data->width().":".$data->length().", numlines=$numlines\n";
@@ -85,9 +88,12 @@ dbname=dataBaseNameForThisAlgorithm
 user=userName
 pass=userPassword
 ";
+return 0;
     }
+ } else {
+    return 0;
  }
- 
+ return 1;
 }
 
 
