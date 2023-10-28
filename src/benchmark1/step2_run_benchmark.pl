@@ -35,7 +35,7 @@ my $logresults=modules::logresult->new($dirname);
 
 foreach my $algodir (@algodirs) {
  my $algoname=basename($algodir);
- my @benchmarkRecords= (300); 
+ my @benchmarkRecords= (-1); 
  my $queryRecordCount = 10; # query 10 lines, compare with correct lines
  foreach my $i (@benchmarkRecords) {
   index_and_query_algorithm($algoname,$datasetname,$i,$queryRecordCount);
