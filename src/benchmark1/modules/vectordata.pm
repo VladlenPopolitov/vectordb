@@ -11,7 +11,8 @@ my $vectordata = {
         type => 'a', 
         record=>'train' , 
         recordtest=>'test',
-        recorddistance=>'distance',
+        recorddistances=>'distances',
+        recordneighbors=>'neighbors',
         http=> 'http://ann-benchmarks.com/glove-100-angular.hdf5',
         tablename => 'items2',
         indexname => 'items2_idx',
@@ -22,7 +23,8 @@ my $vectordata = {
         type => 'a', 
         record=>'train' , 
         recordtest=>'test',
-        recorddistance=>'distance',
+        recorddistances=>'distances',
+        recordneighbors=>'neighbors',
         http=> 'http://ann-benchmarks.com/lastfm-64-dot.hdf5',
         tablename => 'itemslastfm',
         indexname => 'itemslastfm_idx',
@@ -46,7 +48,7 @@ sub new {
      if( defined($datainfo)){
         $self->{name}= $name; 
         $self->{filename}= $datainfo->{file} ; 
-        $self->{recordname}= $datainfo->{record}; 
+        
         $self->{tablename}=$datainfo->{tablename};
         $self->{indexname}=$datainfo->{indexname};
         if( -f $datainfo->{file} ) {
@@ -58,12 +60,16 @@ sub new {
             $recordsetname=$datainfo->{record};
          } elsif ($recordsetname eq 'test'){
             $recordsetname=$datainfo->{recordtest};
-         } elsif ($recordsetname eq 'distance'){
-            $recordsetname=$datainfo->{recorddistance};
+         } elsif ($recordsetname eq 'distances'){
+            $recordsetname=$datainfo->{recorddistances};
+         } elsif ($recordsetname eq 'neighbors'){
+            $recordsetname=$datainfo->{recordneighbors};
          } else {
             die("Unknown dataset name $recordsetname");
          }
-         my $dataset=$newfile->dataset($datainfo->{record});
+         $self->{recordname}= $recordsetname; 
+
+         my $dataset=$newfile->dataset($self->{recordname});
          my $pdl = $dataset->get();
          my ($width,$length)=$dataset->dims();
          if(defined($dataset) && $width>0 && $length>0){   

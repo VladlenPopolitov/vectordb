@@ -7,6 +7,12 @@ use Config::IniFiles;
 use Time::HiRes qw(time);
 use POSIX qw(strftime);
 
+use PDL;
+use PDL::IO::HDF5;
+use PDL::NiceSlice;
+use PDL::IO::Dumper;
+use File::Path('make_path');
+
 BEGIN {
 my $dirname = dirname(abs_path(__FILE__));
 my (@algodirs)=<$dirname/algorithm/*>;
@@ -17,6 +23,7 @@ $| = 1; # autoflush STDOUT
 
 use modules::vectordata;
 use modules::logresult;
+use modules::distance;
 
 
 my $datasetname="lastfm";
@@ -28,7 +35,7 @@ my $logresults=modules::logresult->new($dirname);
 
 foreach my $algodir (@algodirs) {
  my $algoname=basename($algodir);
- my @benchmarkRecords= (-1); 
+ my @benchmarkRecords= (300); 
  my $queryRecordCount = 10; # query 10 lines, compare with correct lines
  foreach my $i (@benchmarkRecords) {
   index_and_query_algorithm($algoname,$datasetname,$i,$queryRecordCount);
@@ -53,34 +60,34 @@ sub index_and_query_algorithm {
         my ($class)="$module"->new($config->val("postgresql","dbname"),$config->val("postgresql","user"),$config->val("postgresql","pass"));
         print " , class name >>".$class->name()."<<\n";
         {
-            my $data=modules::vectordata->new($datasetname,'train');
-            if($numlines>$data->length()){
+            my $dataTrain=modules::vectordata->new($datasetname,'train');
+            if($numlines>$dataTrain->length()){
                 return 0;
             }
-            if($numlines == -1) {$numlines=$data->length();}
-            print "Dataset ".$data->width().":".$data->length().", numlines=$numlines\n";
+            if($numlines == -1) {$numlines=$dataTrain->length();}
+            print "Dataset ".$dataTrain->width().":".$dataTrain->length().", numlines=$numlines\n";
             # create table and return database connection handler (to decrease waiting time)
             $class->init_connection();
-            $class->init_table($data);
-            $class->drop_index($data); # if init_table does not drop index
+            $class->init_table($dataTrain);
+            $class->drop_index($dataTrain); # if init_table does not drop index
             $logresults->start_benchmark();
-            $class->insert_from_data($data,$numlines);
+            $class->insert_from_data($dataTrain,$numlines);
             $logresults->end_benchmark();
             
  
-            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($data),"");
+            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($dataTrain),"");
             
             foreach my $indexParam (@$indexParams) {
                 my $parameter={ %$indexParam };
                 # save parameters in the one line string
                 my $text=parameters2text($parameter);
                 print $text."\n";
-                $class->drop_index($data,$parameter);
+                $class->drop_index($dataTrain,$parameter);
                 $logresults->start_benchmark();
-                $class->create_index($data,$parameter);
+                $class->create_index($dataTrain,$parameter);
                 $logresults->end_benchmark();
             
-                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($data),$text);
+                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($dataTrain),$text);
                 my $datatest=modules::vectordata->new($datasetname,'test');
                 foreach my $queryParam (@$queryParams) {
                     my $parameter={ %$indexParam, %$queryParam };
@@ -89,7 +96,7 @@ sub index_and_query_algorithm {
                     print "$text\n";
                     $class->query_parameter_set($parameter);
                     $logresults->start_benchmark();
-                    my $totalTime=benchmark_query($class,$datatest,$parameter,$queryRecordCount);
+                    my $totalTime=benchmark_query($class,$datatest,$dataTrain,$parameter,$queryRecordCount);
                     $logresults->end_benchmark();
                     $logresults->logdata( "QUERY",$algoname,$datasetname,$numlines,$datatest->length(),$totalTime,$text);
                 }
@@ -112,26 +119,56 @@ return 0;
 }
 
 sub benchmark_query {
-    my ($class,$data,$parameter,$queryRecordCount)=@_;
+    my ($class,$dataTest,$dataTrain,$parameter,$queryRecordCount)=@_;
     # init variables
-    my ($totalTime,$linesQuantity,$start,$stop,$vector)=(0.000000,$data->length(),0,0,'');
+    my ($totalTime,$linesQuantity,$start,$stop,$vector,$testRecord)=(0.000000,$dataTest->length(),0,0,'','');
+    my ($resultNeighbors,$resultDistances); # PDL variables wit result
     # set parameter if needed
     # loop through test records set and query every line
-    for(my $i=0;$i<$linesQuantity;++$i){
+    for(my $i=0;$i<100 #$linesQuantity
+    ;++$i){
         # get vector
-        $vector=$data->getline_format1($i);
+        $vector=$dataTest->getline_format1($i);
+        $testRecord=$dataTest->getline_format2($i);
         # start timer
         $start=time;
         # run query
-        my $result=$class->query($data,$queryRecordCount,$vector);
+        my $result=$class->query($dataTest,$queryRecordCount,$vector);
         # stop counter and calculate time, calculate total time
         $stop=time;
         $totalTime+=($stop-$start);
+        if(scalar(@$result)!=$queryRecordCount){
+            while(scalar(@$result)<$queryRecordCount){
+                push(@$result,0);
+            
+            }
+
+        }
         # add result arrays with id and distances to dataset
-        #print join('-',@$result);print "\n";
+        my $distances=calculateDistances($dataTrain,$result,$testRecord);
+        if(defined($resultNeighbors)){
+            $resultNeighbors=$resultNeighbors->glue(1,pdl(long,[ [ @$result]])); 
+        } else {
+          $resultNeighbors=pdl(float,[ [ @$result]]);      
+        }
+        if(defined($resultDistances)){
+            $resultDistances=$resultDistances->glue(1,$distances);
+        } else {
+          $resultDistances=$distances;      
+        }
         # end loop
     }
     # store dataset
+    store_dataset($class,$resultNeighbors,$resultDistances,{
+    'parameters' => parameters2text($parameter), 
+    'parameters2filename' => $dataTrain->distancetype().parameters2filename($parameter), 
+    'algorithm' => $class->name(),
+    'queryCount' => $queryRecordCount,
+    'totalTime' => $totalTime,
+    'queries' => $linesQuantity,
+    'dataset' => $dataTrain->name(),
+    'distance' => $dataTrain->distancetype()
+    });
     # return total time
     return $totalTime;
 }
@@ -147,4 +184,48 @@ sub parameters2text {
     }
     $retvalue.="}";
     return $retvalue;
+}
+
+sub parameters2filename {
+    my ($paramref)=@_;
+    my $retvalue='';
+    foreach my $key (sort keys %$paramref){
+        $retvalue.="_".$paramref->{$key};
+    }
+    return $retvalue;
+}
+
+
+sub calculateDistances {
+    my ($dataTrain,$neighbors,$testRecord)=@_;
+    my $calculatedDistances = pdl(float,[ [ () ]]); # empty column 
+    my $metric=$dataTrain->distancetype();
+    foreach my $n (@$neighbors) {
+        my $trainRecord=$dataTrain->getline_format2($n);
+        my $distance=modules::distance::distance($metric,$testRecord,$trainRecord);
+        $calculatedDistances=$calculatedDistances->append($distance);
+    }
+    return $calculatedDistances;
+}
+
+sub store_dataset {
+    my ($class,$resultNeighbors,$resultDistances,$attributes)=@_;
+    my ($dirname,$filename)=("../../results/".$attributes->{dataset}.'/'.$attributes->{queryCount}.'/'.$attributes->{algorithm}.'/',$attributes->{parameters2filename}.'.hdf5');
+    make_path($dirname);
+    unlink $dirname.$filename;
+  my $newfile = new PDL::IO::HDF5($dirname.$filename);        #  open existing file.
+=pod    
+    $newfile->attrSet('parameters' => parameters2text($parameter)); 
+    $newfile->attrSet('algorithm' => $class->name()); 
+    $newfile->attrSet('queryCount' => $queryRecordCount); 
+    $newfile->attrSet('totalTime' => $totalTime); 
+    $newfile->attrSet('queries' => $linesQuantity); 
+    $newfile->attrSet('dataset' => $dataTrain->name()); 
+    $newfile->attrSet('distance' => $dataTrain->distancetype()); 
+=cut    
+    $newfile->attrSet(%$attributes); 
+    my $dataset1=$newfile->dataset("neighbors");
+    $dataset1->set($resultNeighbors,unlimited=>1);
+    my $dataset2=$newfile->dataset("distances");
+    $dataset2->set($resultDistances,unlimited=>1);
 }
