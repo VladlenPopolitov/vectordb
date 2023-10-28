@@ -37,11 +37,11 @@ sub new {
 }
 
 sub logdata {
-    my ($self,$logname,$algoname,$datasetname,$numlines,$size,$parameters)=@_;
+    my ($self,$logname,$algoname,$datasetname,$numlines,$measuredQuantity,$measuredValue,$parameters)=@_;
     my $timediff = $self->{end} - $self->{start};
     if($self->{loaded}) {
     open(LOG,">>".$self->{filename}) || die("Cannot open logresult.txt");
-    print LOG $self->{runNumber}."\t$logname\t$algoname\t$datasetname\t$numlines\t".($timediff)."\t".($numlines/$timediff)."\t".$size."\t".($size/$numlines)."\t".$parameters."\n";
+    print LOG $self->{runNumber}."\t$logname\t$algoname\t$datasetname\t$numlines\t$measuredQuantity\t".($timediff)."\t".($measuredQuantity/$timediff)."\t".$measuredValue."\t".($measuredValue/$measuredQuantity)."\t".$parameters."\n";
     close(LOG);
     } else {
         die "logresults object is not initialized.";

@@ -10,6 +10,8 @@ my $vectordata = {
     {   file => "../../vectordata/glove-100-angular.hdf5", 
         type => 'a', 
         record=>'train' , 
+        recordtest=>'test',
+        recorddistance=>'distance',
         http=> 'http://ann-benchmarks.com/glove-100-angular.hdf5',
         tablename => 'items2',
         indexname => 'items2_idx',
@@ -19,6 +21,8 @@ my $vectordata = {
     {   file => "../../vectordata/lastfm-64-dot.hdf5", 
         type => 'a', 
         record=>'train' , 
+        recordtest=>'test',
+        recorddistance=>'distance',
         http=> 'http://ann-benchmarks.com/lastfm-64-dot.hdf5',
         tablename => 'itemslastfm',
         indexname => 'itemslastfm_idx',
@@ -28,7 +32,7 @@ my $vectordata = {
 
 sub new {
     my ($class) = shift;
-    my ($name) = @_;
+    my ($name,$recordsetname) = @_;
     my $self = { 
         name => '',
         filename => '',
@@ -47,14 +51,26 @@ sub new {
         $self->{indexname}=$datainfo->{indexname};
         if( -f $datainfo->{file} ) {
          my $newfile = new PDL::IO::HDF5($datainfo->{file});
+         if(!defined($recordsetname)){
+            $recordsetname='train';
+         }
+         if($recordsetname eq 'train'){
+            $recordsetname=$datainfo->{record};
+         } elsif ($recordsetname eq 'test'){
+            $recordsetname=$datainfo->{recordtest};
+         } elsif ($recordsetname eq 'distance'){
+            $recordsetname=$datainfo->{recorddistance};
+         } else {
+            die("Unknown dataset name $recordsetname");
+         }
          my $dataset=$newfile->dataset($datainfo->{record});
          my $pdl = $dataset->get();
          my ($width,$length)=$dataset->dims();
          if(defined($dataset) && $width>0 && $length>0){   
             $self->{width}= $width; 
             $self->{length}= $length; 
-            $self->{pdlref}= $pdl ;             
-            $self->{loaded}= 1 ; 
+            $self->{pdlref}= $pdl;             
+            $self->{loaded}= 1; 
          }
         }
      }

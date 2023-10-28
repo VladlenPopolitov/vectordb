@@ -34,7 +34,7 @@ sub install_algorithm {
         my ($class)="$module"->new($config->val("postgresql","dbname"),$config->val("postgresql","user"),$config->val("postgresql","pass"));
         print " , class name >>".$class->name()."<<\n";
         # creat user and database (as admin)
-        my $dbh=DBI->connect('dbi:Pg:', $configAdmin->val("postgresql","adminuser"), $configAdmin->val("postgresql","adminuser"), {AutoCommit => 1});
+        my $dbh=DBI->connect('dbi:Pg:db='.$configAdmin->val("postgresql","admindb"), $configAdmin->val("postgresql","adminuser"), $configAdmin->val("postgresql","adminuser"), {AutoCommit => 1});
         $class->create_user($dbh);
         $class->create_database($dbh);
         # reconnect with new database as current database (as admin)

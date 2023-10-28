@@ -12,12 +12,13 @@ sub new
     my $class = shift;
     my ($dbname,$user,$password) = @_;
     my $self = {
-                name => "pgvector_i",
+        name => "pgvector_i",
         dbname => $dbname ,
         user => $user,
         password => $password ,
-         width => 0
-               };
+        width => 0,
+        dbh => undef
+        };
     bless $self, $class;
     return $self;
 }
@@ -69,12 +70,19 @@ sub init_database {
     }
 }
 
+sub init_connection {
+    my ($self) = @_;
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        $self->{dbh}=DBI->connect('dbi:Pg:dbname='.$self->{dbname}, $self->{user}, $self->{password}, {AutoCommit => 1});
+    }
+}
+
 sub init_table {
     my ($self,$data) = @_;
+    my $dbh=$self->{dbh};
     my $width = $data->width();
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
-        my $dbh=DBI->connect('dbi:Pg:dbname='.$self->{dbname}, $self->{user}, $self->{password}, {AutoCommit => 1});
         $self->{width}=$width;
         $dbh->do("DROP TABLE IF EXISTS public.$table");
         $dbh->do("CREATE TABLE public.$table (id int, embedding vector($width))");
@@ -88,7 +96,8 @@ sub init_table {
 }
 
 sub insert_from_data {
-    my ($self,$dbh, $data, $totalLines) = @_;
+    my ($self, $data, $totalLines) = @_;
+    my $dbh=$self->{dbh};
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
@@ -108,7 +117,8 @@ sub insert_from_data {
 }
 
 sub create_index {
-    my ($self, $dbh, $data,$parameters) = @_;
+    my ($self, $data,$parameters) = @_;
+    my $dbh=$self->{dbh};
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         my ($lists)=$parameters->{lists};
@@ -125,7 +135,8 @@ sub create_index {
 }
 
 sub drop_index {
-    my ($self, $dbh, $data,$parameters) = @_;
+    my ($self, $data,$parameters) = @_;
+    my $dbh=$self->{dbh};
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         my ($lists)=$parameters->{lists};
@@ -139,7 +150,8 @@ sub drop_index {
 
 
 sub index_size {
-    my ($self, $dbh, $data) = @_;
+    my ($self, $data) = @_;
+    my $dbh=$self->{dbh};
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
@@ -159,7 +171,8 @@ sub index_size {
 }
 
 sub table_size {
-    my ($self, $dbh, $data) = @_;
+    my ($self, $data) = @_;
+    my $dbh=$self->{dbh};
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
@@ -178,5 +191,35 @@ sub table_size {
     }
 }
 
+sub query_parameter_set {
+  my ($self,$parameter)=@_;
+  my $dbh=$self->{dbh};
+  my $probes=$parameter->{probe};
+  my $sth=$dbh->prepare("SET ivfflat.probes = $probes");
+
+  $sth->execute();
+}
+
+sub query {
+    my ($self,$data,$count,$vector)=@_;
+    my $dbh=$self->{dbh};
+    my $table = $data->tablename();
+    my $query='';
+    my $distancetype = $self->{distancetype};
+    if($distancetype eq "a") {
+        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <=> $1 LIMIT '.$count;
+    } elsif( $distancetype eq "l2") {
+        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <-> $1 LIMIT '.$count;
+    } else {
+            die("unknown metric '$distancetype'");
+    }
+    my $sth=$dbh->prepare($query);
+    $sth->execute($vector);
+    my (@id, @row);
+    while(@row = $sth->fetchrow_array()){
+         push(@id, $row[0]);         
+    } 
+    return \@id;
+}
 
 1;

@@ -57,13 +57,14 @@ sub insert_and_index_algorithm {
             if($numlines > $data->length() ) {$numlines=$data->length();}
             print "Dataset ".$data->width().":".$data->length().", numlines=$numlines\n";
             # create table and return database connection handler (to decrease waiting time)
-            my $dbh=$class->init_table($data);
+            $class->init_connetion();
+            $class->init_table($data);
             $logresults->start_benchmark();
-            $class->insert_from_data($dbh,$data,$numlines);
+            $class->insert_from_data($data,$numlines);
             $logresults->end_benchmark();
             
  
-            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$class->table_size($dbh,$data),"");
+            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$class->table_size($data),"");
             
             foreach my $indexParam (@$indexParams) {
                 my $parameter={ %$indexParam };
@@ -72,12 +73,12 @@ sub insert_and_index_algorithm {
                 $text=~s/\n| |\t|\;//g;
                 $text=~s/|\$(VAR1)(=)//g;
                 print "$text\n";
-                $class->drop_index($dbh,$data,$parameter);
+                $class->drop_index($data,$parameter);
                 $logresults->start_benchmark();
-                $class->create_index($dbh,$data,$parameter);
+                $class->create_index($data,$parameter);
                 $logresults->end_benchmark();
             
-                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$class->index_size($dbh,$data),$text);
+                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$class->index_size($data),$text);
             }       
             
         }
@@ -94,17 +95,4 @@ return 0;
     return 0;
  }
  return 1;
-}
-
-
-sub lognumber {
-    open(LOGNUM,"<logrun.txt");
-    my $number=<LOGNUM>;
-    close(LOGNUM);
-    $number=$number+1;
-    open(LOGNUM,">logrun.txt");
-    print LOGNUM $number;
-    close(LOGNUM);
-    return $number;
-
 }
