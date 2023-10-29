@@ -75,28 +75,32 @@ sub index_and_query_algorithm {
             $logresults->end_benchmark();
             
  
-            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($dataTrain),"");
+            my $insertTime=$logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($dataTrain),"");
             
             foreach my $indexParam (@$indexParams) {
                 my $parameter={ %$indexParam };
+                # current time
+                my $epoch = time();
+                my $microsecs = ($epoch - int($epoch)) *1e6;
                 # save parameters in the one line string
                 my $text=parameters2text($parameter);
-                print $text."\n";
+                print strftime("%d-%m-%Y %H:%M:%S", localtime($epoch)) . "." . sprintf("%06.0f", $microsecs)." ".$text."\n";
                 $class->drop_index($dataTrain,$parameter);
                 $logresults->start_benchmark();
                 $class->create_index($dataTrain,$parameter);
                 $logresults->end_benchmark();
             
-                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($dataTrain),$text);
+                my $indexTime=$logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($dataTrain),$text);
                 my $datatest=modules::vectordata->new($datasetname,'test');
                 foreach my $queryParam (@$queryParams) {
                     my $parameter={ %$indexParam, %$queryParam };
+                    my $savedata={indextime=>$indexTime,inserttime=>$insertTime,tablesize=>$class->table_size($dataTrain),indexsize=>$class->index_size($dataTrain)};
                     # save parameters in the one line string
                     my $text=parameters2text($parameter);
                     print "$text\n";
                     $class->query_parameter_set($parameter);
                     $logresults->start_benchmark();
-                    my $totalTime=benchmark_query($class,$datatest,$dataTrain,$parameter,$queryRecordCount);
+                    my $totalTime=benchmark_query($class,$datatest,$dataTrain,$parameter,$queryRecordCount,$savedata);
                     $logresults->end_benchmark();
                     $logresults->logdata( "QUERY",$algoname,$datasetname,$numlines,$datatest->length(),$totalTime,$text);
                 }
@@ -119,14 +123,13 @@ return 0;
 }
 
 sub benchmark_query {
-    my ($class,$dataTest,$dataTrain,$parameter,$queryRecordCount)=@_;
+    my ($class,$dataTest,$dataTrain,$parameter,$queryRecordCount,$savedata)=@_;
     # init variables
     my ($totalTime,$linesQuantity,$start,$stop,$vector,$testRecord)=(0.000000,$dataTest->length(),0,0,'','');
     my ($resultNeighbors,$resultDistances); # PDL variables wit result
     # set parameter if needed
     # loop through test records set and query every line
-    for(my $i=0;$i<100 #$linesQuantity
-    ;++$i){
+    for(my $i=0;$i<$linesQuantity;++$i){
         # get vector
         $vector=$dataTest->getline_format1($i);
         $testRecord=$dataTest->getline_format2($i);
@@ -167,7 +170,8 @@ sub benchmark_query {
     'totalTime' => $totalTime,
     'queries' => $linesQuantity,
     'dataset' => $dataTrain->name(),
-    'distance' => $dataTrain->distancetype()
+    'distance' => $dataTrain->distancetype(),
+    %$savedata
     });
     # return total time
     return $totalTime;

@@ -46,6 +46,7 @@ sub logdata {
     } else {
         die "logresults object is not initialized.";
     }
+    return $timediff;
 }
 
 sub start_benchmark {
