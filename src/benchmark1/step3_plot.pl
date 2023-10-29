@@ -38,7 +38,7 @@ my $dataDistances=modules::vectordata->new($datasetname,'distances');
 # create output file
 unless(-f "$dirname/../../results/$datasetname/$queryRecordCount/benchmark.csv") {
     open(RESULT,">","$dirname/../../results/$datasetname/$queryRecordCount/benchmark.csv");
-    print RESULT "Dataset\tAlgorithm\tRecall\tRecordsPerSecond\n";
+    print RESULT "Dataset\tAlgorithm\tParameters\tRecall\tRecordsPerSecond\n";
     close(RESULT);
 }
 
@@ -53,14 +53,16 @@ sub scan_and_collect_data {
     my $algoname=basename($algodir);
     my $outputfilename=$algodir."/../benchmark.csv";
        print "$algoname dir ";
-       my (@resultfiles)=<$algodir/*>;
+       my (@resultfiles)=<$algodir/a_*>;
        foreach my $resultfile (@resultfiles) {
             
             
             print "Dataset ".$dataDistances->width().":".$dataDistances->length()." File $resultfile\n";
             # create table and return database connection handler (to decrease waiting time)
-            scan_file($resultfile,$dataDistances);
-            
+            my ($dataset,$algorithm,$parameters,$recall,$queryPerSecond)=scan_file($resultfile,$dataDistances);
+            open(LOG,">>",$outputfilename);
+            print LOG "$dataset\t$algorithm\t$parameters\t$recall\t$queryPerSecond\n";
+            close(LOG);
         }
  return 1;
 }
@@ -93,68 +95,9 @@ sub scan_file {
             last if $resultLine->at($recallLine)<=$lastDistance ;
             --$recallLine;
         }
-        print $recallLine.">".$resultLine->at($recallLine)."<=".$lastDistance.":";
-        print "$i $lastDistance $widthFirst , $lastColumn,$i ($recallLine) >> ";
         $recallTotal += $recallLine+1;
     }
-    print "Recall=".($recallTotal/$length/($lastColumn+1))."\n";
-    
-}
-
-
-sub benchmark_query {
-    my ($class,$dataTest,$dataTrain,$parameter,$queryRecordCount)=@_;
-    # init variables
-    my ($totalTime,$linesQuantity,$start,$stop,$vector,$testRecord)=(0.000000,$dataTest->length(),0,0,'','');
-    my ($resultNeighbors,$resultDistances); # PDL variables wit result
-    # set parameter if needed
-    # loop through test records set and query every line
-    for(my $i=0;$i<100 #$linesQuantity
-    ;++$i){
-        # get vector
-        $vector=$dataTest->getline_format1($i);
-        $testRecord=$dataTest->getline_format2($i);
-        # start timer
-        $start=time;
-        # run query
-        my $result=$class->query($dataTest,$queryRecordCount,$vector);
-        # stop counter and calculate time, calculate total time
-        $stop=time;
-        $totalTime+=($stop-$start);
-        if(scalar(@$result)!=$queryRecordCount){
-            while(scalar(@$result)<$queryRecordCount){
-                push(@$result,0);
-            
-            }
-
-        }
-        # add result arrays with id and distances to dataset
-        my $distances=calculateDistances($dataTrain,$result,$testRecord);
-        if(defined($resultNeighbors)){
-            $resultNeighbors=$resultNeighbors->glue(1,pdl(long,[ [ @$result]])); 
-        } else {
-          $resultNeighbors=pdl(float,[ [ @$result]]);      
-        }
-        if(defined($resultDistances)){
-            $resultDistances=$resultDistances->glue(1,$distances);
-        } else {
-          $resultDistances=$distances;      
-        }
-        # end loop
-    }
-    # store dataset
-    store_dataset($class,$resultNeighbors,$resultDistances,{
-    'parameters' => parameters2text($parameter), 
-    'parameters2filename' => $dataTrain->distancetype().parameters2filename($parameter), 
-    'algorithm' => $class->name(),
-    'queryCount' => $queryRecordCount,
-    'totalTime' => $totalTime,
-    'queries' => $linesQuantity,
-    'dataset' => $dataTrain->name(),
-    'distance' => $dataTrain->distancetype()
-    });
-    # return total time
-    return $totalTime;
+    return ($attr->{dataset},$attr->{algorithm}, $attr->{parameters}, $recallTotal/$length/($lastColumn+1) , $attr->{queries}/$attr->{totalTime} ) ;
 }
 
 sub parameters2text {
@@ -168,27 +111,5 @@ sub parameters2text {
     }
     $retvalue.="}";
     return $retvalue;
-}
-
-sub parameters2filename {
-    my ($paramref)=@_;
-    my $retvalue='';
-    foreach my $key (sort keys %$paramref){
-        $retvalue.="_".$paramref->{$key};
-    }
-    return $retvalue;
-}
-
-
-sub calculateDistances {
-    my ($dataTrain,$neighbors,$testRecord)=@_;
-    my $calculatedDistances = pdl(float,[ [ () ]]); # empty column 
-    my $metric=$dataTrain->distancetype();
-    foreach my $n (@$neighbors) {
-        my $trainRecord=$dataTrain->getline_format2($n);
-        my $distance=modules::distance::distance($metric,$testRecord,$trainRecord);
-        $calculatedDistances=$calculatedDistances->append($distance);
-    }
-    return $calculatedDistances;
 }
 
