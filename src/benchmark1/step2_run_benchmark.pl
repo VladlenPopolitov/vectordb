@@ -26,7 +26,7 @@ use modules::logresult;
 use modules::distance;
 
 
-my $datasetname="lastfm";
+my $datasetname="glove-100-a";
 
 my $dirname = dirname(abs_path(__FILE__));
 my (@algodirs)=<$dirname/algorithm/*>;
