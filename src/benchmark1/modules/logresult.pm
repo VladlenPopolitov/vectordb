@@ -17,7 +17,7 @@ sub new {
      $self->{numfilename}="$dir/../../results/logrun.txt";
      if( defined($dir)){
         unless( -f $self->{numfilename} ) {
-            open(LOGNUM,">".$self->{numfilename}) || die("Cannot open ".">".$self->{numfilename});
+            open(LOGNUM,">".$self->{numfilename}) || die("Cannot create ".">".$self->{numfilename});
             print LOGNUM "0";
             close(LOGNUM);
         }
@@ -29,6 +29,11 @@ sub new {
         print LOGNUM $self->{runNumber};
         close(LOGNUM); 
         $self->{filename}= $dir."/../../results/logdata.txt"; 
+        unless(-f $self->{filename}){
+            open(LOG,">".$self->{filename}) || die("Cannot create ".">".$self->{filename});
+            print LOG "Run\tOp\tAlgorithm\tDataset\tRecords\tQuantity\tSec\tQuantityPerSec\tValue\tValuePerQuantity\tParameters\n";
+            close(LOG);
+        }
         $self->{loaded}= 1 ; 
      }
      
