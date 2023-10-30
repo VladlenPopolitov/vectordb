@@ -6,15 +6,21 @@ cd vectordb
 git submodule update --init --recursive
 # create pstgres source directory in external/postgres-15.4
 cd external 
+
 wget https://ftp.postgresql.org/pub/source/v15.4/postgresql-15.4.tar.gz
+
 tar xvf postgresql-15.4.tar.gz
+
 # make postgres 
 cd postgresql-15.4
+
 ./configure
+
 make all
 # install to /usr/local/pgsql
 # run sudo
 make install
+
 cd ../..
 # configure and start postgresql server:
 # https://www.postgresql.org/docs/current/postgres-user.html etc
@@ -25,6 +31,7 @@ export PATH=/usr/local/pgsql/bin:$PATH
 
 # 2) compile extention
 cd external/pgvector
+
 make USE_PGXS=1
 # 3) install extension
 make USE_PGXS=1 install
@@ -36,14 +43,18 @@ cpan Config::IniFiles
 
 # create local ini files with database credentials
 # a. File src/benchmark1/db.ini with content
-[postgresql]
+\[postgresql]
 adminuser=userNameToCreateDatabases
+
 adminpass=passwordOfadminuser
 
 # b. in every algorithm folder create db.ini
-[postgresql]
+\[postgresql]
+
 dbname=dataBaseNameForThisAlgorithm
+
 user=userName
+
 pass=userPassword
 
 # install PDL (Perl Data Language) - packages to read HDF5 datasets with sample vectors
