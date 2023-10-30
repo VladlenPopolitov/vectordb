@@ -34,7 +34,7 @@ cpan DBD::Pg
 # ini file support to load site specific data
 cpan Config::IniFiles
 
-# create local ini files with database cridentials
+# create local ini files with database credentials
 # a. File src/benchmark1/db.ini with content
 [postgresql]
 adminuser=userNameToCreateDatabases
@@ -46,7 +46,7 @@ dbname=dataBaseNameForThisAlgorithm
 user=userName
 pass=userPassword
 
-# install PDL (Perl Data Language) - packages to read HDF5 datasets woth sample vectors
+# install PDL (Perl Data Language) - packages to read HDF5 datasets with sample vectors
 cpanm install PDL
 cpanm install PDL::IO::HDF5
 
