@@ -44,6 +44,7 @@ cpan Config::IniFiles
 # create local ini files with database credentials
 # a. File src/benchmark1/db.ini with content
 \[postgresql]
+
 adminuser=userNameToCreateDatabases
 
 adminpass=passwordOfadminuser
