@@ -51,5 +51,10 @@ cpanm install PDL
 cpanm install PDL::IO::HDF5
 
 
+Benchmark results:
+Dataset lastfm (angular distance, query 10 rows).
+![Benchmark](results/lastfm/10/benchmark.png?raw=true "Benchmark")
+
+
 
 
