@@ -1,3 +1,6 @@
 [submodule "external/pgvector"]
 	path = external/pgvector
 	url = https://github.com/pgvector/pgvector
+[submodule "external/pg_embedded"]
+	path = external/pg_embedded
+	url = https://github.com/neondatabase/pg_embedding
