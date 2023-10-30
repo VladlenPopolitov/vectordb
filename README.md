@@ -31,16 +31,16 @@ make USE_PGXS=1 install
 
 # install Perl support for Postgresql
 cpan DBD::Pg
-# ini file support to load site cpecific data
+# ini file support to load site specific data
 cpan Config::IniFiles
 
-create local ini files with database cridentials
-File src/benchmark1/db.ini with content
+# create local ini files with database cridentials
+# a. File src/benchmark1/db.ini with content
 [postgresql]
 adminuser=userNameToCreateDatabases
 adminpass=passwordOfadminuser
 
-in every algorithm folder create db.ini
+# b. in every algorithm folder create db.ini
 [postgresql]
 dbname=dataBaseNameForThisAlgorithm
 user=userName
@@ -51,7 +51,7 @@ cpanm install PDL
 cpanm install PDL::IO::HDF5
 
 
-Benchmark results:
+# Benchmark results:
 Dataset lastfm (angular distance, query 10 rows).
 
 ![Benchmark](results/lastfm/10/benchmark.png?raw=true "Benchmark")
