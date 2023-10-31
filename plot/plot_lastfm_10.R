@@ -1,5 +1,5 @@
-datasetName <- "lastfm"
-#datasetName <- "glove-100-a"
+#datasetName <- "lastfm"
+datasetName <- "glove-100-a"
 queryLines <- "10"
 getwd()
 setwd(".")
