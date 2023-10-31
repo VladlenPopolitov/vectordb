@@ -28,6 +28,7 @@ use modules::vectordata;
 use modules::distance;
 
 
+#my $datasetname="glove-100-a";
 my $datasetname="lastfm";
 my $queryRecordCount = 10; # query 10 lines, compare with correct lines
 my $tolerance=0.0001; # tolerance to compare distance difference
@@ -38,7 +39,7 @@ my $dataDistances=modules::vectordata->new($datasetname,'distances');
 # create output file
 unless(-f "$dirname/../../results/$datasetname/$queryRecordCount/benchmark.csv") {
     open(RESULT,">","$dirname/../../results/$datasetname/$queryRecordCount/benchmark.csv");
-    print RESULT "Dataset\tAlgorithm\tParameters\tRecall\tRecordsPerSecond\n";
+    print RESULT "Dataset\tAlgorithm\tParameters\tRecall\tRecordsPerSecond\tIndexTime\tInsertTime\n";
     close(RESULT);
 }
 
@@ -59,9 +60,9 @@ sub scan_and_collect_data {
             
             print "Dataset ".$dataDistances->width().":".$dataDistances->length()." File $resultfile\n";
             # create table and return database connection handler (to decrease waiting time)
-            my ($dataset,$algorithm,$parameters,$recall,$queryPerSecond)=scan_file($resultfile,$dataDistances);
+            my ($dataset,$algorithm,$parameters,$recall,$queryPerSecond,$indexTime,$insertTime)=scan_file($resultfile,$dataDistances);
             open(LOG,">>",$outputfilename);
-            print LOG "$dataset\t$algorithm\t$parameters\t$recall\t$queryPerSecond\n";
+            print LOG "$dataset\t$algorithm\t$parameters\t$recall\t$queryPerSecond\t$indexTime\t$insertTime\n";
             close(LOG);
         }
  return 1;
@@ -78,7 +79,9 @@ sub scan_file {
     'totalTime' => $newfile->attrGet('totalTime'),
     'queries' => $newfile->attrGet('queries'),
     'dataset' => $newfile->attrGet('dataset'),
-    'distance' => $newfile->attrGet('distance')
+    'distance' => $newfile->attrGet('distance'),
+    'indextime' => $newfile->attrGet('indextime'),
+    'inserttime' => $newfile->attrGet('inserttime'),
     } ; 
     #print parameters2text($attr);
     my $dataset1=$newfile->dataset("distances");
@@ -97,7 +100,7 @@ sub scan_file {
         }
         $recallTotal += $recallLine+1;
     }
-    return ($attr->{dataset},$attr->{algorithm}, $attr->{parameters}, $recallTotal/$length/($lastColumn+1) , $attr->{queries}/$attr->{totalTime} ) ;
+    return ($attr->{dataset},$attr->{algorithm}, $attr->{parameters}, $recallTotal/$length/($lastColumn+1) , $attr->{queries}/$attr->{totalTime}, $attr->{indextime}, $attr->{inserttime} ) ;
 }
 
 sub parameters2text {
