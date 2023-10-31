@@ -26,7 +26,8 @@ use modules::logresult;
 use modules::distance;
 
 
-my $datasetname="glove-100-a";
+#my $datasetname="glove-100-a";
+my $datasetname="lastfm";
 
 my $dirname = dirname(abs_path(__FILE__));
 my (@algodirs)=<$dirname/algorithm/*>;
@@ -97,8 +98,9 @@ sub index_and_query_algorithm {
                     my $savedata={indextime=>$indexTime,inserttime=>$insertTime,tablesize=>$class->table_size($dataTrain),indexsize=>$class->index_size($dataTrain)};
                     # save parameters in the one line string
                     my $text=parameters2text($parameter);
-                    print "$text\n";
-                    $class->query_parameter_set($parameter);
+                    $epoch = time();
+                    print strftime("%d-%m-%Y %H:%M:%S", localtime($epoch))." $text\n";
+                    $class->query_parameter_set($datatest,$parameter);
                     $logresults->start_benchmark();
                     my $totalTime=benchmark_query($class,$datatest,$dataTrain,$parameter,$queryRecordCount,$savedata);
                     $logresults->end_benchmark();

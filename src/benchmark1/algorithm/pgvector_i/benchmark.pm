@@ -192,7 +192,7 @@ sub table_size {
 }
 
 sub query_parameter_set {
-  my ($self,$parameter)=@_;
+  my ($self,$data,$parameter)=@_;
   my $dbh=$self->{dbh};
   my $probes=$parameter->{probe};
   my $sth=$dbh->prepare("SET ivfflat.probes = $probes");

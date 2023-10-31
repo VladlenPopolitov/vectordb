@@ -1,4 +1,4 @@
-package pgvector_hnsw::benchmark;
+package pg_embedding::benchmark;
 use strict;
 use DBI;
 use PDL;
@@ -6,17 +6,19 @@ use PDL::IO::HDF5;
 #use PDL::NiceSlice;
 #use PDL::IO::Dumper;
 
-sub new {
+
+sub new    
+{
     my $class = shift;
     my ($dbname,$user,$password) = @_;
-    my $self = { 
-        name => "pgvector_hnsw",
+    my $self = {
+        name => "pg_embedding",
         dbname => $dbname ,
         user => $user,
         password => $password ,
         width => 0,
-        distancetype=>''
-     };
+        dbh => undef
+        };
     bless $self, $class;
     return $self;
 }
@@ -56,7 +58,7 @@ sub create_database {
 sub init_database {
     my ($self,$dbh) = @_;
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
-        $dbh->do("CREATE EXTENSION IF NOT EXISTS vector");
+       $dbh->do("CREATE EXTENSION IF NOT EXISTS embedding");
         $dbh->do("GRANT USAGE ON SCHEMA public TO ".$self->{user});
         $dbh->do("GRANT ALL ON SCHEMA public TO ".$self->{user});
         $dbh->do("GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ".$self->{user});
@@ -82,9 +84,9 @@ sub init_table {
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         $self->{width}=$width;
-        $dbh->do("DROP TABLE IF EXISTS public."."$table");
-        $dbh->do("CREATE TABLE public."."$table (id int, embedding vector($width))");
-        $dbh->do("ALTER TABLE public."."$table ALTER COLUMN embedding SET STORAGE PLAIN");
+        $dbh->do("DROP TABLE IF EXISTS public.$table");
+        $dbh->do("CREATE TABLE public.$table (id int, embedding real[])");
+        $dbh->do("ALTER TABLE public.$table ALTER COLUMN embedding SET STORAGE PLAIN");
         
         return $dbh;
     } else {
@@ -101,7 +103,7 @@ sub insert_from_data {
         #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
         my $sth=$dbh->do("COPY public.$table (id,embedding) FROM STDIN");
         for(my $record=0;$record<$totalLines;++$record){
-            my $line=$data->getline_format1($record) ; # {pdlref}->($widthFirst:$widthLast,($record)); $line=~ s/[ ]+/,/g;
+            my $line=$data->getline_format3($record) ; # {pdlref}->($widthFirst:$widthLast,($record)); $line=~ s/[ ]+/,/g;
             $dbh->func($record."\t".$line."\n", 'putline');
         }
         $dbh->func("\\.\n", 'putline');
@@ -120,11 +122,11 @@ sub create_index {
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         my ($m,$fConstruction)=($parameters->{m},$parameters->{fConstruction});
-        
+        my $width = $data->width();
         if($self->{distancetype} eq 'a') { # angular 
-         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx  ON public.$table USING hnsw (embedding vector_cosine_ops) WITH (m = $m, ef_construction = $fConstruction)");
-        } elsif ($self->{distancetype} eq 'l2') { # L2 distance - euclidian - x**2+y**2+... 
-         my $sth=$dbh->do("CREATE INDEX ON ${table}_embeded_idx USING hnsw (embedding vector_l2_ops) WITH (m = $m, ef_construction = $fConstruction)");
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding ann_cos_ops ) WITH (dims=$width, m = $m, efconstruction = $fConstruction)");
+        } elsif ($self->{distancetype} eq 'l2') { # L2 distance - euclidean - x**2+y**2+... 
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING ivfflat (embedding ) WITH  WITH (dims=$width, m = $m, efconstruction = $fConstruction)");
         }
         return 1;
     } else {
@@ -132,7 +134,6 @@ sub create_index {
         return 0;
     }
 }
-
 
 sub drop_index {
     my ($self, $data,$parameters) = @_;
@@ -195,20 +196,24 @@ sub query_parameter_set {
   my ($self,$data,$parameter)=@_;
   my $dbh=$self->{dbh};
   my $ef_search=$parameter->{eSearch};
-  my $sth=$dbh->prepare("SET hnsw.ef_search = $ef_search");
+  my $table = $data->tablename();
+  my $sth=$dbh->prepare("ALTER INDEX public.${table}_embeded_idx  SET (efsearch=$ef_search)");
+
   $sth->execute();
 }
 
 sub query {
     my ($self,$data,$count,$vector)=@_;
+    $vector=~ s/\[[\,]*/\{/g;
+    $vector=~ s/[\,]*\]/\}/g;
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
     my $query='';
     my $distancetype = $self->{distancetype};
     if($distancetype eq "a") {
-        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <=> $1 LIMIT '.$count;
+        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <=> $1::real[] LIMIT '.$count;
     } elsif( $distancetype eq "l2") {
-        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <-> $1 LIMIT '.$count;
+        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <-> $1::real[] LIMIT '.$count;
     } else {
             die("unknown metric '$distancetype'");
     }
@@ -220,6 +225,5 @@ sub query {
     } 
     return \@id;
 }
-
 
 1;

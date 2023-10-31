@@ -165,7 +165,9 @@ sub getline_format1 {
        my ($widthFirst,$widthLast)=(0,$self->width-1);
        my $line=$self->{pdlref}->($widthFirst:$widthLast,($linenum));
        $line=~ s/[ ]+/,/g;
-        return $line;
+       $line=~ s/\[[\,]*/\[/g;
+       $line=~ s/[\,]*\]/\]/g;
+       return $line;
     } else {
         return '';
     }
@@ -178,6 +180,20 @@ sub getline_format2 {
        my ($widthFirst,$widthLast)=(0,$self->width-1);
        my $line=$self->{pdlref}->($widthFirst:$widthLast,($linenum));
        return $line;
+    } else {
+        return '';
+    }
+}
+
+sub getline_format3 {
+    my ($self,$linenum) = @_;
+    if($self->{loaded}) {
+       my ($widthFirst,$widthLast)=(0,$self->width-1);
+       my $line=$self->{pdlref}->($widthFirst:$widthLast,($linenum));
+       $line=~ s/[ ]+/,/g;
+       $line=~ s/\[[\,]*/\{/g;
+       $line=~ s/[\,]*\]/\}/g;
+        return $line;
     } else {
         return '';
     }
