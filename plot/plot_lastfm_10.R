@@ -20,16 +20,20 @@ pgvector_i <- resultsSorted[resultsSorted$Algorithm == 'pgvector_i',]
 pgvector_i
 embedding <- resultsSorted[resultsSorted$Algorithm == 'pg_embedding',]
 embedding
+lantern <- resultsSorted[resultsSorted$Algorithm == 'lantern',]
+lantern
+
 outputFile <- paste(path,"benchmark.png", sep = "/")
 png(outputFile)
 plot(x=c(0.05,1.1), y=c(1,60000), col="white" ,type = "b",pch=3,log="y",xlab="Recall",ylab="Queries per second")
 
 lines(x=pgvector_hnsw$Recall, y=pgvector_hnsw$RecordsPerSecond, col="red" ,type = "b",pch=1)
 lines(x=pgvector_i$Recall, y=pgvector_i$RecordsPerSecond, col="green" ,type = "b",pch=4)
-lines(x=embedding$Recall, y=embedding$RecordsPerSecond, col="blue" ,type = "b",pch=4)
+lines(x=embedding$Recall, y=embedding$RecordsPerSecond, col="blue" ,type = "b",pch=5)
+lines(x=lantern$Recall, y=lantern$RecordsPerSecond, col="brown" ,type = "b",pch=6)
 
-legend(0.06, 20, legend=c("pgvector_hnsw", "pgvector_i", "embedding_pg"),  
-       fill = c("red","green","blue") )
+legend(0.06, 20, legend=c("pgvector_hnsw", "pgvector_i", "embedding_pg","lantern"),  
+       fill = c("red","green","blue","brown") )
 dev.off()
 
 outputFile <- paste(path,"benchmarkIndex.png", sep = "/")
@@ -38,10 +42,11 @@ plot(x=c(0.05,1.1), y=c(1,60000), col="white" ,type = "b",pch=3,log="y",xlab="Re
 
 lines(x=pgvector_hnsw$Recall, y=pgvector_hnsw$IndexTime, col="red" ,type = "l",pch=1)
 lines(x=pgvector_i$Recall, y=pgvector_i$IndexTime, col="green" ,type = "l",pch=4)
-lines(x=embedding$Recall, y=embedding$IndexTime, col="blue" ,type = "l",pch=4)
+lines(x=embedding$Recall, y=embedding$IndexTime, col="blue" ,type = "l",pch=5)
+lines(x=lantern$Recall, y=lantern$IndexTime, col="brown" ,type = "b",pch=6)
 
-legend(0.06, 20, legend=c( "pgvector_hnsw","pgvector_i","embedding_pg"),  
-       fill = c("red","green","blue") )
+legend(0.06, 10000, legend=c("pgvector_hnsw", "pgvector_i", "embedding_pg","lantern"),  
+       fill = c("red","green","blue","brown") )
 dev.off()
 
 
