@@ -25,15 +25,23 @@ png(outputFile)
 plot(x=c(0.05,1.1), y=c(1,60000), col="white" ,type = "b",pch=3,log="y",xlab="Recall",ylab="Queries per second")
 
 lines(x=pgvector_hnsw$Recall, y=pgvector_hnsw$RecordsPerSecond, col="red" ,type = "b",pch=1)
-lines(x=pgvector_hnsw$Recall, y=pgvector_hnsw$IndexTime, col="green" ,type = "l",pch=1)
-lines(x=pgvector_i$Recall, y=pgvector_i$RecordsPerSecond, col="black" ,type = "b",pch=4)
-lines(x=pgvector_i$Recall, y=pgvector_i$IndexTime, col="blue" ,type = "l",pch=4)
-lines(x=embedding$Recall, y=embedding$RecordsPerSecond, col="brown" ,type = "b",pch=4)
-lines(x=embedding$Recall, y=embedding$IndexTime, col="yellow" ,type = "l",pch=4)
+lines(x=pgvector_i$Recall, y=pgvector_i$RecordsPerSecond, col="green" ,type = "b",pch=4)
+lines(x=embedding$Recall, y=embedding$RecordsPerSecond, col="blue" ,type = "b",pch=4)
 
-legend(0.06, 20, legend=c("pgvector_hnsw recall", "pgvector_hnsw index time","pgvector_i recall", 
-                          "pgvector_i index time","embedding_pg recall","embedding_pg index time"),  
-       fill = c("red","green","black","blue","brown","yellow") )
+legend(0.06, 20, legend=c("pgvector_hnsw", "pgvector_i", "embedding_pg"),  
+       fill = c("red","green","blue") )
+dev.off()
+
+outputFile <- paste(path,"benchmarkIndex.png", sep = "/")
+png(outputFile)
+plot(x=c(0.05,1.1), y=c(1,60000), col="white" ,type = "b",pch=3,log="y",xlab="Recall",ylab="Index creation time (seconds)")
+
+lines(x=pgvector_hnsw$Recall, y=pgvector_hnsw$IndexTime, col="red" ,type = "l",pch=1)
+lines(x=pgvector_i$Recall, y=pgvector_i$IndexTime, col="green" ,type = "l",pch=4)
+lines(x=embedding$Recall, y=embedding$IndexTime, col="blue" ,type = "l",pch=4)
+
+legend(0.06, 20, legend=c( "pgvector_hnsw","pgvector_i","embedding_pg"),  
+       fill = c("red","green","blue") )
 dev.off()
 
 
