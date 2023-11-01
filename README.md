@@ -19,9 +19,7 @@ cd postgresql-15.4
 ./configure
 make all
 ```
-install to /usr/local/pgsql
-
-(run sudo)
+install to /usr/local/pgsql (run with sudo if needed)
 ```
 make install
 cd ../..
@@ -29,23 +27,39 @@ cd ../..
  configure and start postgresql server:
  https://www.postgresql.org/docs/current/postgres-user.html etc
 
- build extension
+ Build extensions
 
- 1) setting the PARH
-```
-export PATH=/usr/local/pgsql/bin:$PATH
-```
+1) setting the PATH
+
+bash: `export PATH=/usr/local/pgsql/bin:$PATH`
+
 csh: `set path = ( /usr/local/pgsql/bin $path )`
 
-2) compile extention
+2) compile and install extention pgvector
 ```
 cd external/pgvector
 make USE_PGXS=1
+sudo make USE_PGXS=1 install
+cd ../..
 ```
-3) install extension
+3) compile and install extention pg_embedding
 ```
-make USE_PGXS=1 install
+cd external/pg_embedded
+make USE_PGXS=1
+sudo make USE_PGXS=1 install
+cd ../..
 ```
+4) compile and install extention lantern
+```
+cd external/lantern
+mkdir build
+cd build
+cmake ..
+make 
+sudo make install
+cd ../../..
+```
+
 install Perl support for Postgresql
 ```
 cpan DBD::Pg
