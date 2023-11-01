@@ -4,3 +4,6 @@
 [submodule "external/pg_embedded"]
 	path = external/pg_embedded
 	url = https://github.com/neondatabase/pg_embedding
+[submodule "external/lantern"]
+	path = external/lantern
+	url = https://github.com/lanterndata/lantern
