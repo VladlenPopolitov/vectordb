@@ -1,4 +1,4 @@
-package pg_embedding::benchmark;
+package lantern::benchmark;
 use strict;
 use DBI;
 use PDL;
@@ -12,7 +12,7 @@ sub new
     my $class = shift;
     my ($dbname,$user,$password) = @_;
     my $self = {
-        name => "pg_embedding",
+        name => "lantern",
         dbname => $dbname ,
         user => $user,
         password => $password ,
@@ -58,7 +58,7 @@ sub create_database {
 sub init_database {
     my ($self,$dbh) = @_;
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
-       $dbh->do("CREATE EXTENSION IF NOT EXISTS embedding");
+       $dbh->do("CREATE EXTENSION IF NOT EXISTS lantern");
         $dbh->do("GRANT USAGE ON SCHEMA public TO ".$self->{user});
         $dbh->do("GRANT ALL ON SCHEMA public TO ".$self->{user});
         $dbh->do("GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ".$self->{user});
@@ -85,7 +85,7 @@ sub init_table {
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         $self->{width}=$width;
         $dbh->do("DROP TABLE IF EXISTS public.$table");
-        $dbh->do("CREATE TABLE public.$table (id int, embedding real[])");
+        $dbh->do("CREATE TABLE public.$table (id int, embedding real[$width])");
         $dbh->do("ALTER TABLE public.$table ALTER COLUMN embedding SET STORAGE PLAIN");
         
         return $dbh;
@@ -121,12 +121,12 @@ sub create_index {
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
-        my ($m,$fConstruction)=($parameters->{m},$parameters->{fConstruction});
+        my ($m,$fConstruction,$ef)=($parameters->{m},$parameters->{fConstruction},$parameters->{ef});
         my $width = $data->width();
         if($self->{distancetype} eq 'a') { # angular 
-         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding ann_cos_ops ) WITH (dims=$width, m = $m, efconstruction = $fConstruction)");
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding dist_cos_ops)  WITH (dim=$width, M=$m, ef_construction=$fConstruction,ef=1)");
         } elsif ($self->{distancetype} eq 'l2') { # L2 distance - euclidean - x**2+y**2+... 
-         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING ivfflat (embedding ) WITH (dims=$width, m = $m, efconstruction = $fConstruction)");
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding dist_l2sq_ops) WITH (dim=$width, M = $m, ef_construction = $fConstruction,ef=1)");
         }
         return 1;
     } else {
@@ -197,8 +197,11 @@ sub query_parameter_set {
   my $dbh=$self->{dbh};
   my $ef_search=$parameter->{eSearch};
   my $table = $data->tablename();
-  my $sth=$dbh->prepare("ALTER INDEX public.${table}_embeded_idx  SET (efsearch=$ef_search)");
+  
+  my $sth=$dbh->prepare("ALTER INDEX public.${table}_embeded_idx  SET (ef=$ef_search)");
 
+  $sth->execute();
+  $sth=$dbh->prepare("SET enable_seqscan = false");
   $sth->execute();
 }
 
@@ -211,7 +214,7 @@ sub query {
     my $query='';
     my $distancetype = $self->{distancetype};
     if($distancetype eq "a") {
-        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <=> $1::real[] LIMIT '.$count;
+        $query = 'SELECT id FROM '.$table.' ORDER BY embedding <-> $1::real[] LIMIT '.$count;
     } elsif( $distancetype eq "l2") {
         $query = 'SELECT id FROM '.$table.' ORDER BY embedding <-> $1::real[] LIMIT '.$count;
     } else {

@@ -57,14 +57,14 @@ sub insert_and_index_algorithm {
             if($numlines > $data->length() ) {$numlines=$data->length();}
             print "Dataset ".$data->width().":".$data->length().", numlines=$numlines\n";
             # create table and return database connection handler (to decrease waiting time)
-            $class->init_connetion();
+            $class->init_connection();
             $class->init_table($data);
             $logresults->start_benchmark();
             $class->insert_from_data($data,$numlines);
             $logresults->end_benchmark();
             
  
-            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$class->table_size($data),"");
+            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($data),"");
             
             foreach my $indexParam (@$indexParams) {
                 my $parameter={ %$indexParam };
@@ -78,7 +78,7 @@ sub insert_and_index_algorithm {
                 $class->create_index($data,$parameter);
                 $logresults->end_benchmark();
             
-                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$class->index_size($data),$text);
+                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($data),$text);
             }       
             
         }
