@@ -124,9 +124,9 @@ sub create_index {
         my ($m,$fConstruction,$ef)=($parameters->{m},$parameters->{fConstruction},$parameters->{eSearch});
         my $width = $data->width();
         if($self->{distancetype} eq 'a') { # angular 
-         my $sth=$dbh->do("CREATE INDEX public.${table}_embeded_idx ON public.$table USING hnsw (embedding dist_cos_ops)  WITH (dim=$width, M=$m, ef_construction=$fConstruction,ef=$ef)");
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding dist_cos_ops)  WITH (dim=$width, M=$m, ef_construction=$fConstruction,ef=$ef)");
         } elsif ($self->{distancetype} eq 'l2') { # L2 distance - euclidean - x**2+y**2+... 
-         my $sth=$dbh->do("CREATE INDEX public.${table}_embeded_idx ON public.$table USING hnsw (embedding dist_l2sq_ops) WITH (dim=$width, M = $m, ef_construction = $fConstruction,ef=$ef)");
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding dist_l2sq_ops) WITH (dim=$width, M = $m, ef_construction = $fConstruction,ef=$ef)");
         }
         return 1;
     } else {
