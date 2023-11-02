@@ -28,8 +28,8 @@ use modules::vectordata;
 use modules::distance;
 
 
-#my $datasetname="glove-100-a";
-my $datasetname="lastfm";
+my $datasetname="glove-100-a";
+#my $datasetname="lastfm";
 my $queryRecordCount = 10; # query 10 lines, compare with correct lines
 my $tolerance=0.0001; # tolerance to compare distance difference
 my $dirname = dirname(abs_path(__FILE__));

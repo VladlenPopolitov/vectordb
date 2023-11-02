@@ -1,5 +1,11 @@
-datasetName <- "lastfm"
-#datasetName <- "glove-100-a"
+# library for regexp
+library(stringr)
+# library for gplot
+library(tidyverse)
+substrRight <- function(x, n){substr(x, nchar(x)-n+1, nchar(x))}
+
+#datasetName <- "lastfm"
+datasetName <- "glove-100-a"
 queryLines <- "10"
 getwd()
 setwd(".")
@@ -49,6 +55,16 @@ legend(0.06, 10000, legend=c("pgvector_hnsw", "pgvector_i", "embedding_pg","lant
        fill = c("red","green","blue","brown") )
 dev.off()
 
+resultFiltered<-filter(resultsSorted,Recall>0.4)
+outputFile <- paste(path,"benchmark2.png", sep = "/")
+png(outputFile)
+ggplot(data = resultFiltered,aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=Algorithm)) + ylab("Records Per Second") +
+  geom_point(mapping = aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=1)) + 
+  geom_path() +
+  geom_point() +
+  ggtitle(paste("Dataset: ",datasetName))
+
+dev.off()
 
 
 
