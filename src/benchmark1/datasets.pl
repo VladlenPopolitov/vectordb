@@ -18,7 +18,7 @@ if($#ARGV==-1){
 my $datasetsnum=modules::vectordata::LENGTH();
 for(my $i=0;$i<$datasetsnum;++$i){
     my $dataset=modules::vectordata->new(modules::vectordata::NAME($i));
-    print sprintf "%02d %-15s %-15s %-50s %-5s\n" , $i+1, $dataset->name(),modules::vectordata::NAME($i),
+    print sprintf "%02d %-20s %-20s %-50s %-5s\n" , $i+1, $dataset->name(),modules::vectordata::NAME($i),
     (-f $dirname."/".$dataset->filename())?$dataset->filename():
     "run `perl dataset.pl ".$dataset->name()."` to download dataset",
     $dataset->filesize() ;

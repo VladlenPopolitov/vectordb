@@ -29,6 +29,18 @@ my $vectordata = {
         tablename => 'itemslastfm',
         indexname => 'itemslastfm_idx',
         size=>'135M'
+    },
+    'fashion-mnist-784-e' => 
+    {   file => "../../vectordata/fashion-mnist-784-euclidean.hdf5", 
+        type => 'l2', 
+        record=>'train' , 
+        recordtest=>'test',
+        recorddistances=>'distances',
+        recordneighbors=>'neighbors',
+        http=> 'http://ann-benchmarks.com/fashion-mnist-784-euclidean.hdf5',
+        tablename => 'itemsfashionmnist',
+        indexname => 'itemsfashionmnist_idx',
+        size=>'217M'
     }
 };
 

@@ -17,9 +17,24 @@ my $dirname = dirname(abs_path(__FILE__));
 my (@algodirs)=<$dirname/algorithm/*>;
 my $configAdmin = Config::IniFiles->new( -file => $dirname."/db.ini" );
 
+# read config from db.ini
+my $algorithmIncludeRegex=$configAdmin->val("step1","algorithmIncludeRegex");
+$algorithmIncludeRegex=".*" unless defined($algorithmIncludeRegex);
+my $algorithmExcludeRegex=$configAdmin->val("step1","algorithmExcludeRegex");
+$algorithmExcludeRegex="<>" unless defined($algorithmExcludeRegex);
+
+
 foreach my $algodir (@algodirs) {
  my $algoname=basename($algodir);
- install_algorithm($algoname);
+ if($algoname =~ m/$algorithmIncludeRegex/){
+    unless($algoname =~ m/^$algorithmExcludeRegex$/){      
+        install_algorithm($algoname);
+    } else {
+        print "Algorith $algoname skipped due to db.ini algorithmExcludeRegex setting (excluded)\n";
+    }
+ } else {
+    print "Algorith $algoname skipped due to db.ini algorithmIncludeRegex setting (not included)\n";
+ }    
 }
 
 sub install_algorithm {

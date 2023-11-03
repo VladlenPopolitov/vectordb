@@ -26,25 +26,41 @@ use modules::logresult;
 use modules::distance;
 
 
-#my $datasetname="glove-100-a";
-my $datasetname="lastfm";
 
 my $dirname = dirname(abs_path(__FILE__));
+
+# read config from db.ini
+my $configAdmin = Config::IniFiles->new( -file => $dirname."/db.ini" );
+my $datasetname=$configAdmin->val("step2","datasetname");
+$datasetname="lastfm" unless defined($datasetname);
+my $algorithmIncludeRegex=$configAdmin->val("step2","algorithmIncludeRegex");
+$algorithmIncludeRegex=".*" unless defined($algorithmIncludeRegex);
+my $algorithmExcludeRegex=$configAdmin->val("step2","algorithmExcludeRegex");
+$algorithmExcludeRegex="<>" unless defined($algorithmExcludeRegex);
+my $queryRecordCount=$configAdmin->val("step2","queryRecordCount");
+$queryRecordCount=10 unless defined($queryRecordCount); # query 10 lines, compare with correct lines
+
+
 my (@algodirs)=<$dirname/algorithm/*>;
 
 my $logresults=modules::logresult->new($dirname);
 
 foreach my $algodir (@algodirs) {
  my $algoname=basename($algodir);
- my @benchmarkRecords= (-1); 
- my $queryRecordCount = 10; # query 10 lines, compare with correct lines
- foreach my $i (@benchmarkRecords) {
-  index_and_query_algorithm($algoname,$datasetname,$i,$queryRecordCount);
+ if($algoname =~ m/$algorithmIncludeRegex/){
+    unless($algoname =~ m/^$algorithmExcludeRegex$/){      
+        index_and_query_algorithm($algoname,$datasetname,$queryRecordCount);
+    } else {
+        print "Algorith $algoname skipped due to db.ini algorithmExcludeRegex setting (excluded)\n";
+    }
+  } else {
+    print "Algorith $algoname skipped due to db.ini algorithmIncludeRegex setting (not included)\n";
+  }
  }
-}
 
 sub index_and_query_algorithm {
-    my ($algoname,$datasetname,$numlines,$queryRecordCount) = @_;
+    my ($algoname,$datasetname,$queryRecordCount) = @_;
+    my $numlines=-1; # -1 : use all lines
     if(-f $dirname."/algorithm/$algoname/benchmark.pm") {
     if( -f $dirname."/algorithm/$algoname/db.ini") {
         print "$algoname dir ";

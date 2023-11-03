@@ -15,19 +15,35 @@ unshift (@INC,$dirname."/");
 use modules::vectordata;
 use modules::logresult;
 
-
-my $datasetname="lastfm";
-
 my $dirname = dirname(abs_path(__FILE__));
+
+# read config from db.ini
+my $configAdmin = Config::IniFiles->new( -file => $dirname."/db.ini" );
+my $datasetname=$configAdmin->val("step1","datasetname");
+$datasetname="lastfm" unless defined($datasetname);
+my @benchmarkRecords= eval($configAdmin->val("step1","benchmarkRecords")); 
+@benchmarkRecords= (500) if($@ || !defined($benchmarkRecords[0])) ;
+my $algorithmIncludeRegex=$configAdmin->val("step1","algorithmIncludeRegex");
+$algorithmIncludeRegex=".*" unless defined($algorithmIncludeRegex);
+my $algorithmExcludeRegex=$configAdmin->val("step1","algorithmExcludeRegex");
+$algorithmExcludeRegex="<>" unless defined($algorithmExcludeRegex);
+
 my (@algodirs)=<$dirname/algorithm/*>;
 
 my $logresults=modules::logresult->new($dirname);
 
 foreach my $algodir (@algodirs) {
  my $algoname=basename($algodir);
- my @benchmarkRecords= (10,100,1000,5000,10000,50000,100000); # (5000); #  (10,100,1000,5000,10000,50000,100000,500000,-1);
- foreach my $i (@benchmarkRecords) {
-  insert_and_index_algorithm($algoname,$datasetname,$i);
+ if($algoname =~ m/$algorithmIncludeRegex/){
+    unless($algoname =~ m/^$algorithmExcludeRegex$/){      
+        foreach my $i (@benchmarkRecords) {
+            insert_and_index_algorithm($algoname,$datasetname,$i);
+        }
+    } else {
+        print "Algorith $algoname skipped due to db.ini algorithmExcludeRegex setting (excluded)\n";
+    }
+ } else {
+    print "Algorith $algoname skipped due to db.ini algorithmIncludeRegex setting (not included)\n";
  }
 }
 

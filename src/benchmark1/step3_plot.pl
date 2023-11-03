@@ -1,6 +1,4 @@
 
-
-
 use strict;
 use File::Basename;
 use Cwd 'abs_path';
@@ -24,15 +22,24 @@ $| = 1; # autoflush STDOUT
 }
 
 use modules::vectordata;
-#use modules::logresult;
 use modules::distance;
 
-
-my $datasetname="glove-100-a";
-#my $datasetname="lastfm";
-my $queryRecordCount = 10; # query 10 lines, compare with correct lines
-my $tolerance=0.0001; # tolerance to compare distance difference
 my $dirname = dirname(abs_path(__FILE__));
+
+# read config from db.ini
+my $configAdmin = Config::IniFiles->new( -file => $dirname."/db.ini" );
+my $datasetname=$configAdmin->val("step1","datasetname");
+$datasetname="lastfm" unless defined($datasetname);
+my $algorithmIncludeRegex=$configAdmin->val("step3","algorithmIncludeRegex");
+$algorithmIncludeRegex=".*" unless defined($algorithmIncludeRegex);
+my $algorithmExcludeRegex=$configAdmin->val("step3","algorithmExcludeRegex");
+$algorithmExcludeRegex="<>" unless defined($algorithmExcludeRegex);
+my $queryRecordCount=$configAdmin->val("step3","queryRecordCount");
+$queryRecordCount=10 unless defined($queryRecordCount); # query 10 lines, compare with correct lines
+my $tolerance=$configAdmin->val("step3","tolerance");
+$tolerance=0.0001 unless defined($tolerance); # tolerance to compare distance difference
+
+
 my (@algodirs)=<$dirname/../../results/$datasetname/$queryRecordCount/*>;
 my $dataDistances=modules::vectordata->new($datasetname,'distances');
 
@@ -44,8 +51,17 @@ unless(-f "$dirname/../../results/$datasetname/$queryRecordCount/benchmark.csv")
 }
 
 foreach my $algodir (@algodirs) {
-    unless($algodir =~ /.*benchmark\.csv/){
-        scan_and_collect_data($algodir,$dataDistances,$queryRecordCount);
+    if(-d $algodir){
+        my $algoname=basename($algodir);
+        if($algoname =~ m/$algorithmIncludeRegex/){
+            unless($algoname =~ m/^$algorithmExcludeRegex$/){      
+                scan_and_collect_data($algodir,$dataDistances,$queryRecordCount);
+            } else {
+                print "Algorith $algoname skipped due to db.ini algorithmExcludeRegex setting (excluded)\n";
+            }
+        } else {
+            print "Algorith $algoname skipped due to db.ini algorithmIncludeRegex setting (not included)\n";
+        }
     }
 }
 
