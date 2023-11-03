@@ -124,9 +124,9 @@ sub create_index {
         my ($m,$fConstruction)=($parameters->{m},$parameters->{fConstruction});
         my $width = $data->width();
         if($self->{distancetype} eq 'a') { # angular 
-         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding ann_cos_ops ) WITH (dims=$width, m = $m, efconstruction = $fConstruction)");
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding ann_cos_ops ) WITH (dims=$width, m = $m, efconstruction = $fConstruction,efsearch=32)");
         } elsif ($self->{distancetype} eq 'l2') { # L2 distance - euclidean - x**2+y**2+... 
-         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING ivfflat (embedding ) WITH (dims=$width, m = $m, efconstruction = $fConstruction)");
+         my $sth=$dbh->do("CREATE INDEX ${table}_embeded_idx ON public.$table USING hnsw (embedding ) WITH (dims=$width, m = $m, efconstruction = $fConstruction,efsearch=32)");
         }
         return 1;
     } else {
@@ -198,8 +198,10 @@ sub query_parameter_set {
   my $ef_search=$parameter->{eSearch};
   my $table = $data->tablename();
   my $sth=$dbh->prepare("ALTER INDEX public.${table}_embeded_idx  SET (efsearch=$ef_search)");
-
   $sth->execute();
+  $sth=$dbh->prepare("SET enable_seqscan = off");
+  $sth->execute();
+
 }
 
 sub query {
