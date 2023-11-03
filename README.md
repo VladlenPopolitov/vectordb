@@ -96,10 +96,14 @@ Dataset lastfm (angular distance, query 10 rows).
 
 ![Benchmark](results/lastfm/10/benchmark.png?raw=true "Benchmark")
 
+![Benchmark](results/lastfm/10/benchmark2.png?raw=true "Benchmark")
+
 
 Dataset glove-100-angular (angular distance, query 10 rows).
 
 ![Benchmark](results/glove-100-a/10/benchmark.png?raw=true "Benchmark")
+
+![Benchmark](results/glove-100-a/10/benchmark2.png?raw=true "Benchmark")
 
 Index creation time, dataset lastfm (angular distance, query 10 rows).
 
