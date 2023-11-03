@@ -156,7 +156,7 @@ sub index_size {
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
         
-         my $sth=$dbh->prepare("SELECT pg_relation_size('public.${table}_embeded_idx')");
+         my $sth=$dbh->prepare("SELECT pg_relation_size('${table}_embeded_idx')");
          $sth->execute();
          my @row = $sth->fetchrow_array();
          if(@row){
