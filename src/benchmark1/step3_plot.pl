@@ -28,7 +28,7 @@ my $dirname = dirname(abs_path(__FILE__));
 
 # read config from db.ini
 my $configAdmin = Config::IniFiles->new( -file => $dirname."/db.ini" );
-my $datasetname=$configAdmin->val("step1","datasetname");
+my $datasetname=$configAdmin->val("step3","datasetname");
 $datasetname="lastfm" unless defined($datasetname);
 my $algorithmIncludeRegex=$configAdmin->val("step3","algorithmIncludeRegex");
 $algorithmIncludeRegex=".*" unless defined($algorithmIncludeRegex);
@@ -70,7 +70,7 @@ sub scan_and_collect_data {
     my $algoname=basename($algodir);
     my $outputfilename=$algodir."/../benchmark.csv";
        print "$algoname dir ";
-       my (@resultfiles)=<$algodir/a_*>;
+       my (@resultfiles)=<$algodir/*.hdf5>;
        foreach my $resultfile (@resultfiles) {
             
             

@@ -89,7 +89,7 @@ sub init_table {
         $dbh->do("CREATE TABLE public.datatable (id int, v REAL[])");
         $dbh->do("ALTER TABLE public.datatable ALTER COLUMN v SET STORAGE PLAIN");
         $dbh->do("create index if not exists datatable_idx on public.datatable (id)");
-        $dbh->do("create table if not exists  public.datatable_index (id int,neighbour int,hnsw_level int,distance real)");
+        $dbh->do("create UNLOGGED table  public.datatable_index (id int,neighbour int,hnsw_level int,distance real)");
         $dbh->do("create index if not exists datatable_index_idx on public.datatable_index (hnsw_level,id)");
         $dbh->do("create index if not exists datatable_index2_idx on public.datatable_index (hnsw_level,id,neighbour)");
         return $dbh;

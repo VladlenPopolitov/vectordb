@@ -105,6 +105,12 @@ Dataset glove-100-angular (angular distance, query 10 rows).
 
 ![Benchmark](results/glove-100-a/10/benchmark2.png?raw=true "Benchmark")
 
+Dataset fashion-mnist-784-e (angular distance, query 10 rows).
+
+![Benchmark](results/fashion-mnist-784-e/10/benchmark.png?raw=true "Benchmark")
+
+![Benchmark](results/fashion-mnist-784-e/10/benchmark2.png?raw=true "Benchmark")
+
 Index creation time, dataset lastfm (angular distance, query 10 rows).
 
 ![Benchmark](results/lastfm/10/benchmarkIndex.png?raw=true "Benchmark")
@@ -114,6 +120,10 @@ Index creation time, dataset glove-100-angular (angular distance, query 10 rows)
 
 ![Benchmark](results/glove-100-a/10/benchmarkIndex.png?raw=true "Benchmark")
 
+
+Index creation time, dataset fashion-mnist-784-e (angular distance, query 10 rows).
+
+![Benchmark](results/fashion-mnist-784-e/10/benchmarkIndex.png?raw=true "Benchmark")
 
 
 

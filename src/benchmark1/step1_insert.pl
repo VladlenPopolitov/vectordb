@@ -71,7 +71,8 @@ sub insert_and_index_algorithm {
             }
             if($numlines == -1) {$numlines=$data->length();}
             if($numlines > $data->length() ) {$numlines=$data->length();}
-            print "Dataset ".$data->width().":".$data->length().", numlines=$numlines\n";
+            my $epoch = time();
+            print strftime("%d-%m-%Y %H:%M:%S", localtime($epoch)) . " Dataset ".$data->width().":".$data->length().", numlines=$numlines\n";
             # create table and return database connection handler (to decrease waiting time)
             $class->init_connection();
             $class->init_table($data);

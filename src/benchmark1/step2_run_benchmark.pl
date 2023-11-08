@@ -70,7 +70,7 @@ sub index_and_query_algorithm {
         my $config = Config::IniFiles->new( -file => $dirname."/algorithm/$algoname/db.ini" );
         my $indexParamStr=$config->val("parameters","index");
         my $indexParams=eval($indexParamStr);
-        print "\nindexParamStr=$indexParamStr indexParams=$indexParams\n";
+        print "\nindexParamStr=$indexParamStr\n";
         my $queryParamStr=$config->val("parameters","query");
         my $queryParams=eval($queryParamStr);
 
@@ -82,7 +82,8 @@ sub index_and_query_algorithm {
                 return 0;
             }
             if($numlines == -1) {$numlines=$dataTrain->length();}
-            print "Dataset ".$dataTrain->width().":".$dataTrain->length().", numlines=$numlines\n";
+            my $epoch = time();
+            print strftime("%d-%m-%Y %H:%M:%S", localtime($epoch)) ." Dataset ".$dataTrain->width().":".$dataTrain->length().", numlines=$numlines\n";
             # create table and return database connection handler (to decrease waiting time)
             $class->init_connection();
             $class->init_table($dataTrain);

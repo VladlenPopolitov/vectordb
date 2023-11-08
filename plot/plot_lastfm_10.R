@@ -5,7 +5,8 @@ library(tidyverse)
 substrRight <- function(x, n){substr(x, nchar(x)-n+1, nchar(x))}
 
 #datasetName <- "lastfm"
-datasetName <- "glove-100-a"
+#datasetName <- "glove-100-a"
+datasetName <- "fashion-mnist-784-e"
 queryLines <- "10"
 getwd()
 setwd(".")
