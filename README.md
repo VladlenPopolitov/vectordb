@@ -126,4 +126,4 @@ Index creation time, dataset fashion-mnist-784-e (angular distance, query 10 row
 ![Benchmark](results/fashion-mnist-784-e/10/benchmarkIndex.png?raw=true "Benchmark")
 
 
-# How to run benchmark, see the link ![Run benchmarks description](src/benchmark1/README.md "Run benchmarks").
+# How to run benchmark, see the link [Run benchmarks description](src/benchmark1/README.md).
