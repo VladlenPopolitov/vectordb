@@ -1,4 +1,4 @@
-#Test of vector type: create extensions, create database for every extension, run benchmarks.
+# Test of vector type: create extensions, create database for every extension, run benchmarks.
 ```
 git clone https://github.com/VladlenPopolitov/vectordb
 cd vectordb
@@ -27,7 +27,7 @@ cd ../..
  configure and start postgresql server,f.e.:
  https://www.postgresql.org/docs/current/postgres-user.html etc
 
- #Build extensions
+# Build extensions
 
 1) setting the PATH
 
@@ -60,7 +60,7 @@ sudo make install
 cd ../../..
 ```
 
-#install Perl support for Postgresql
+# Install Perl support for Postgresql
 ```
 cpan DBD::Pg
 ```
@@ -69,7 +69,7 @@ ini file support to load site specific data
 cpan Config::IniFiles
 ```
 
-#create local ini files with database credentials
+# Create local ini files with database credentials
 
 a. File src/benchmark1/db.ini with content (example in src/benchmark1/sample_db.ini )
 ```
@@ -90,7 +90,7 @@ cpanm install PDL
 cpanm install PDL::IO::HDF5
 ```
 
-#Benchmark results:
+# Benchmark results:
 
 Dataset lastfm (angular distance, query 10 rows).
 
