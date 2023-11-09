@@ -105,7 +105,7 @@ sub query_algorithm {
                 my $datatest=modules::vectordata->new($datasetname,'test');
                 foreach my $queryParam (@$queryParams) {
                     my $parameter={ %$indexParam, %$queryParam };
-                    my $savedata={tablesize=>$class->table_size($dataTrain),indexsize=>$class->index_size($dataTrain)};
+                    my $savedata={indextime=>0.001,inserttime=>0.001,tablesize=>$class->table_size($dataTrain),indexsize=>$class->index_size($dataTrain)};
                     # save parameters in the one line string
                     my $text=parameters2text($parameter);
                     $epoch = time();
