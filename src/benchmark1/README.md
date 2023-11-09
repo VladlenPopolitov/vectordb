@@ -56,7 +56,7 @@ cd src/benchmark
 
 b. Step 0 - create databases, users for every algorithm
 ```
-perl step-_install.pl
+perl step0_install.pl
 ```
 
 c. Step 1 - create tables, fill tables, make index.
@@ -73,7 +73,7 @@ e. Step 3 - create report
 ```
 perl step3_plot.pl
 ```
-Data are stored in file ```results/datasetname/recordcount/benchmark.csv```
+Data are stored in file ```results/datasetname/recordcount/benchmark.csv```, f.e. ```results/lastfm/10/benchmark.csv```
 
 f. Create PNG files ```results/datasetname/recordcount/benchmark.png```, 
 ```results/datasetname/recordcount/benchmark2.png```, ```results/datasetname/recordcount/benchmarkIndex.png```: run R language script ```plot/plot_lastfm_10.R```, chose dataset name and record count (if not equal to 10) in first lines of the script.
