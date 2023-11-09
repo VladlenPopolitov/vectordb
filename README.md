@@ -1,13 +1,13 @@
-Test of vector type.
+#Test of vector type: create extensions, create database for every extension, run benchmarks.
 ```
 git clone https://github.com/VladlenPopolitov/vectordb
 cd vectordb
 ```
-clone pgvector repository as submodule
+clone pgvector, pg_embedding, lantern repositories as submodules
 ```
 git submodule update --init --recursive
 ```
-create pstgres source directory in external/postgres-15.4
+create postgres source directory in external/postgres-15.4
 ```
 cd external 
 wget https://ftp.postgresql.org/pub/source/v15.4/postgresql-15.4.tar.gz
@@ -24,10 +24,10 @@ install to /usr/local/pgsql (run with sudo if needed)
 make install
 cd ../..
 ```
- configure and start postgresql server:
+ configure and start postgresql server,f.e.:
  https://www.postgresql.org/docs/current/postgres-user.html etc
 
- Build extensions
+ #Build extensions
 
 1) setting the PATH
 
@@ -60,7 +60,7 @@ sudo make install
 cd ../../..
 ```
 
-install Perl support for Postgresql
+#install Perl support for Postgresql
 ```
 cpan DBD::Pg
 ```
@@ -69,28 +69,28 @@ ini file support to load site specific data
 cpan Config::IniFiles
 ```
 
-create local ini files with database credentials
+#create local ini files with database credentials
 
-a. File src/benchmark1/db.ini with content
+a. File src/benchmark1/db.ini with content (example in src/benchmark1/sample_db.ini )
 ```
 [postgresql]
 adminuser=userNameToCreateDatabases
 adminpass=passwordOfadminuser
 ```
-b. in every algorithm folder create db.ini
+b. in every algorithm folder create db.ini (example in sample_db.ini)
 ```
 [postgresql]
 dbname=dataBaseNameForThisAlgorithm
 user=userName
 pass=userPassword
 ```
-install PDL (Perl Data Language) - packages to read HDF5 datasets with sample vectors
+install PDL (Perl Data Language) - packages to read and write HDF5 datasets with sample vectors and benchmark results.
 ```
 cpanm install PDL
 cpanm install PDL::IO::HDF5
 ```
 
-Benchmark results:
+#Benchmark results:
 
 Dataset lastfm (angular distance, query 10 rows).
 
@@ -126,4 +126,4 @@ Index creation time, dataset fashion-mnist-784-e (angular distance, query 10 row
 ![Benchmark](results/fashion-mnist-784-e/10/benchmarkIndex.png?raw=true "Benchmark")
 
 
-
+# How to run benchmark, see the link ![Run benchmarks description](src/benchmark1/README.md "Run benchmarks").
