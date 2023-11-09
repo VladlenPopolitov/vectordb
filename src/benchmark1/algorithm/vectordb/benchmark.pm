@@ -124,6 +124,7 @@ sub create_index {
     my ($self, $data,$parameters) = @_;
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
+    $self->{distancetype}=$data->distancetype();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         my ($m,$fConstruction)=($parameters->{m},$parameters->{fConstruction});
         
@@ -213,6 +214,14 @@ sub query_parameter_set {
   my ($self,$data,$parameter)=@_;
   my $dbh=$self->{dbh};
   $self->{eSearch}=$parameter->{eSearch};
+  $self->{distancetype}=$data->distancetype();
+  my $sth=$dbh->prepare("select * from hnsw_get_entrypoint()");
+  $sth->execute();
+  my (@id, @row);
+    if(@row = $sth->fetchrow_array()){
+          $self->{epoint}=$row[0];         
+          $self->{elevel}=$row[1];         
+    } 
 }
 
 sub query {
@@ -222,11 +231,11 @@ sub query {
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
     my $query='';
-    my $distancetype = $self->{distancetype};
+    my $distancetype = $data->distancetype();
     if($distancetype eq "a") {
         $query = ' ';
     } elsif( $distancetype eq "l2") {
-        $query = 'SELECT hnsw_query_l2($1::real[],'.$count.",". $self->{eSearch} . ")";
+        $query = 'SELECT hnsw_query_ep_l2($1::real[],'. $self->{epoint}.",". $self->{elevel}.",".$count.",". $self->{eSearch} . ")";
     } else {
             die("unknown metric '$distancetype'");
     }

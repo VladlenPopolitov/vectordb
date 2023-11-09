@@ -120,6 +120,7 @@ sub create_index {
     my ($self, $data,$parameters) = @_;
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
+    $self->{distancetype}=$data->distancetype();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         my ($m,$fConstruction,$ef)=($parameters->{m},$parameters->{fConstruction},$parameters->{eSearch});
         my $width = $data->width();
@@ -203,6 +204,7 @@ sub query_parameter_set {
   $sth->execute();
   $sth=$dbh->prepare("SET enable_seqscan = false");
   $sth->execute();
+  $self->{distancetype}=$data->distancetype();
 }
 
 sub query {
@@ -212,7 +214,7 @@ sub query {
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
     my $query='';
-    my $distancetype = $self->{distancetype};
+    my $distancetype = $data->distancetype();
     if($distancetype eq "a") {
         $query = 'SELECT id FROM '.$table.' ORDER BY embedding <-> $1::real[] LIMIT '.$count;
     } elsif( $distancetype eq "l2") {

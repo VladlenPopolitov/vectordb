@@ -118,6 +118,7 @@ sub create_index {
     my ($self, $data,$parameters) = @_;
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
+    $self->{distancetype}=$data->distancetype();
     if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
         my ($m,$fConstruction)=($parameters->{m},$parameters->{fConstruction});
         
@@ -197,6 +198,7 @@ sub query_parameter_set {
   my $ef_search=$parameter->{eSearch};
   my $sth=$dbh->prepare("SET hnsw.ef_search = $ef_search");
   $sth->execute();
+  $self->{distancetype}=$data->distancetype();
 }
 
 sub query {
@@ -204,7 +206,7 @@ sub query {
     my $dbh=$self->{dbh};
     my $table = $data->tablename();
     my $query='';
-    my $distancetype = $self->{distancetype};
+    my $distancetype = $data->distancetype();
     if($distancetype eq "a") {
         $query = 'SELECT id FROM '.$table.' ORDER BY embedding <=> $1 LIMIT '.$count;
     } elsif( $distancetype eq "l2") {

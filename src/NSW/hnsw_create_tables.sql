@@ -673,12 +673,12 @@ iCounter INT;
 q_point HNSWPOINT;
 retvalue INT[];
 BEGIN
-raise info '% hnsw_query_l2 START',timeofday();
+--raise info '% hnsw_query_l2 START',timeofday();
 hnswinfo.tablename:='data';
 q_point.id=-1;
 q_point.distance=0;
 q_point.v=testvalue;
-raise info '% hnsw_query_l2 START1',timeofday();
+--raise info '% hnsw_query_l2 START1',timeofday();
 SELECT a.neighbour,a.hnsw_level INTO hnswinfo.entrypoint,hnswinfo.eplevel  
  FROM datatable_index as a 
  WHERE a.id=-1;
@@ -686,7 +686,7 @@ SELECT a.neighbour,a.hnsw_level INTO hnswinfo.entrypoint,hnswinfo.eplevel
 SELECT a.v INTO hnswinfo.epvector  
  FROM datatable as a 
  WHERE a.id=hnswinfo.entrypoint;
-	raise info '% hnsw_query_l2 FINISH',timeofday();
+	--raise info '% hnsw_query_l2 FINISH',timeofday();
 RETURN retvalue;
 end;
 $BODY9$;
@@ -694,7 +694,7 @@ $BODY9$;
 
 
 CREATE OR REPLACE FUNCTION hnsw_query_ep_l2(testvalue REAL[],epid INT,eplevel INT,Mquantity INT, sfSearch INT)
-RETURNS INT[]
+RETURNS TABLE (neighbours INT)
 LANGUAGE plpgsql AS $BODY9$
 DECLARE
 hnswinfo hnsw_param;
@@ -707,7 +707,7 @@ ttmp timestamp;
 
 BEGIN
 tdiff1=0::REAL;
-raise info '% hnsw_query_l2 START',timeofday();
+--raise info '% hnsw_query_l2 START',timeofday();
 t1:=timeofday();
 hnswinfo.tablename:='data';
 q_point.id=-1;
@@ -723,9 +723,9 @@ SELECT public.hnsw_knn_search(hnswinfo,q_point ,Mquantity,sfSearch) INTO retvalu
 	--raise info 'Vector % % % % %', retvalue[6],retvalue[7],retvalue[8],retvalue[9],retvalue[10];
 	ttmp=timeofday();
 	tdiff1:=tdiff1+ extract(epoch from ttmp)-extract(epoch from t1);
-	raise info '% hnsw_query_l2 FINISH diff=%',timeofday(),tdiff1;
+	--raise info '% hnsw_query_l2 FINISH diff=%',timeofday(),tdiff1;
 	
-RETURN retvalue;
+RETURN QUERY SELECT unnest(retvalue) as neighbours;
 end;
 $BODY9$;
 
@@ -746,7 +746,24 @@ INSERT INTO public.datatable_index select * from public.datatable_index_save;
 END;
 $BODY10$;
 
+CREATE OR REPLACE FUNCTION hnsw_get_entrypoint() RETURNS table (epoint INT, elevel INT)
+LANGUAGE plpgsql AS $BODY11$
+BEGIN
+RETURN QUERY SELECT a.neighbour as epoint,a.hnsw_level as elevel
+ FROM datatable_index as a 
+ WHERE a.id=-1;
+ END;
+$BODY11$ ;
 
+
+-- select * from hnsw_get_entrypoint()
+-- drop function hnsw_get_entrypoint()
 -- CALL save_data_index();
 -- CALL restore_data_index();
+-- DROP PROCEDURE restore_data_index()
+-- DROP PROCEDURE save_data_index()
+-- DROP FUNCTION  hnsw_query_ep_l2(testvalue REAL[],epid INT,eplevel INT,Mquantity INT, sfSearch INT)
+-- DROP FUNCTION hnsw_query_l2_delme(testvalue REAL[], Mquantity INT, sfSearch INT)
+-- DROP PROCEDURE hnsw_index_test60000(MQuantity INT, efConstruction INT)
 
+-- select unnest(ARRAY[1,2,3]) as neighbour
