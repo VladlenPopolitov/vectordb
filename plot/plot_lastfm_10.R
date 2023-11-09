@@ -59,11 +59,12 @@ dev.off()
 resultFiltered<-filter(resultsSorted,Recall>0.4)
 outputFile <- paste(path,"benchmark2.png", sep = "/")
 png(outputFile)
-ggplot(data = resultFiltered,aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=Algorithm)) + ylab("Records Per Second") +
+ggplot(data = resultFiltered,aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=Algorithm)) + ylab("Records Per Second (log10 scale)") +
   geom_point(mapping = aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=1)) + 
   geom_path() +
   geom_point() +
-  ggtitle(paste("Dataset: ",datasetName))
+  ggtitle(paste("Dataset: ",datasetName)) +
+  scale_y_continuous(trans = 'log10') 
 
 dev.off()
 

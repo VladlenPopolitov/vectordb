@@ -28,25 +28,25 @@ $BODY$ LANGUAGE plpgsql;
 --select random_array(3,1,3)
 CREATE SEQUENCE IF NOT EXISTS public.serial START 10001;
 create table if not exists  public.datatable (
-id int,
-v real[]
+id int NOT NULL,
+v real[] NOT NULL
 );
 create index if not exists datatable_idx on public.datatable (id);
 -- drop table datatable_index;
 create table if not exists  public.datatable_index (
-id int,
-neighbour int,
-hnsw_level int,	
-distance real
+id int NOT NULL,
+neighbour int NOT NULL,
+hnsw_level int NOT NULL,	
+distance real NOT NULL
 ) ;
 create index if not exists datatable_index_idx on public.datatable_index (hnsw_level,id);
 create index if not exists datatable_index2_idx on public.datatable_index (hnsw_level,id,neighbour);
 
 create table if not exists  public.datatable_index_save (
-id int,
-neighbour int,
-hnsw_level int,	
-distance real
+id int NOT NULL,
+neighbour int NOT NULL,
+hnsw_level int NOT NULL,	
+distance real NOT NULL
 );
 
 /* create type public.hnsw_param as (entrypoint int,eplevel int,epvector REAL[],tablename varchar);
@@ -131,24 +131,24 @@ e_point HNSWPOINT;
 cursor_neighbours refcursor;
 iCounter INT;
 iLength INT;
-t1 timestamp;
-tdiff1 REAL;
-t2 timestamp;
-tdiff2 REAL;
-t3 timestamp;
-tdiff3 REAL;
-t4 timestamp;
-tdiff4 REAL;
-t5 timestamp;
-tdiff5 REAL;
-ttmp timestamp;
+--t1 timestamp;
+--tdiff1 REAL;
+--t2 timestamp;
+--tdiff2 REAL;
+--t3 timestamp;
+--tdiff3 REAL;
+--t4 timestamp;
+--tdiff4 REAL;
+--t5 timestamp;
+--tdiff5 REAL;
+--ttmp timestamp;
 
 begin
-tdiff1:=0::REAL;
-tdiff2:=0::REAL;
-tdiff3:=0::REAL;
-tdiff4:=0::REAL;
-tdiff5:=0::REAL;
+--tdiff1:=0::REAL;
+--tdiff2:=0::REAL;
+--tdiff3:=0::REAL;
+--tdiff4:=0::REAL;
+--tdiff5:=0::REAL;
 --raise info ' hnsw_search_layer NEIGHBOUR at level=%, returned %,q=%',l,array_length(ep,1),q_point.id;
 iLength:=array_length(ep,1);
 iCounter:=1;
@@ -162,7 +162,7 @@ C_candidates:=ep;
 W_retvalue:=ep;
 
 --raise info ' hnsw_search_layer NEIGHBOUR at level=%, returned %,q=%',l,array_length(W_retvalue,1),q_point.id;
-t1:=timeofday();
+--t1:=timeofday();
 WHILE array_length(C_candidates,1)>0 LOOP
  nearestC:=public.search_layer_nearest(C_candidates);
  c_nearest:=C_candidates[nearestC];
@@ -177,26 +177,26 @@ WHILE array_length(C_candidates,1)>0 LOOP
 	where a.hnsw_level=l and a.id=c_nearest.id and a.id<>a.neighbour) INTO e_neighbours ;
   iLength:=array_length(e_neighbours,1);
   iCounter:=1;
-  t2:=timeofday();
+  --t2:=timeofday();
   WHILE iCounter<=iLength LOOP
       --FETCH cursor_neighbours INTO e_neighbour;
     e_neighbour:=e_neighbours[iCounter];  
      -- exit when no more row to fetch
      --exit when not found;
-	 t3:=timeofday();
+	 --t3:=timeofday();
 	 IF NOT ( e_neighbour=ANY(v_visited) ) THEN 
 	  v_visited:=array_append(v_visited,e_neighbour);
-	  t5:=timeofday();
+	  --t5:=timeofday();
 	  furthestW:=search_layer_furthest(W_retvalue);
-	  ttmp=timeofday();
-	  tdiff5:=tdiff5+ extract(epoch from ttmp)-extract(epoch from t5);
+	  --ttmp=timeofday();
+	  --tdiff5:=tdiff5+ extract(epoch from ttmp)-extract(epoch from t5);
 	  
 	  -- if distance(e, q) < distance(f, q) or │W│ < ef
 	  e_point.id:=e_neighbour;
 	  
 	  select v into e_point.v from public.datatable as dt where dt.id=e_neighbour; 
 	  e_point.distance:=l2distance(e_point.v,q_point.v);
-	  t4:=timeofday();
+	  --t4:=timeofday();
 	  IF (e_point.distance < W_retvalue[furthestW].distance) OR array_length(W_retvalue,1)<ef THEN 
 	   C_candidates:=array_append(C_candidates,e_point);
 	   W_retvalue:=array_append(W_retvalue,e_point);
@@ -206,21 +206,21 @@ WHILE array_length(C_candidates,1)>0 LOOP
 	    W_retvalue:=array_remove(W_retvalue,W_retvalue[furthestW]);
 	   END IF;
 	  END IF;
-      ttmp=timeofday();
-	  tdiff4:=tdiff4+ extract(epoch from ttmp)-extract(epoch from t4);
+      --ttmp=timeofday();
+	  --tdiff4:=tdiff4+ extract(epoch from ttmp)-extract(epoch from t4);
 	 END IF;
-	 ttmp=timeofday();
-	 tdiff3:=tdiff3+ extract(epoch from ttmp)-extract(epoch from t3);
+	 --ttmp=timeofday();
+	 --tdiff3:=tdiff3+ extract(epoch from ttmp)-extract(epoch from t3);
 
    iCounter:=iCounter+1; 
 	end loop;
-	ttmp=timeofday();
-	tdiff2:=tdiff2+ extract(epoch from ttmp)-extract(epoch from t2);
+	--ttmp=timeofday();
+	--tdiff2:=tdiff2+ extract(epoch from ttmp)-extract(epoch from t2);
 
   --CLOSE cursor_neighbours;
 END LOOP;
-	ttmp=timeofday();
-	tdiff1:=tdiff1+ extract(epoch from ttmp)-extract(epoch from t1);
+	--ttmp=timeofday();
+	--tdiff1:=tdiff1+ extract(epoch from ttmp)-extract(epoch from t1);
 
   --raise info ' hnsw_search_layer RETURN at level=%, returned W_retvalue % from %',l,array_length(W_retvalue,1),ef;
   --IF l=0 THEN
