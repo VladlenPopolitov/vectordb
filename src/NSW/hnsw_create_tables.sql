@@ -48,6 +48,14 @@ neighbour int NOT NULL,
 hnsw_level int NOT NULL,	
 distance real NOT NULL
 );
+-- drop table public.datatable_results;
+create table if not exists  public.datatable_results (
+id int NOT NULL,
+neighbours int[] NOT NULL,
+distances REAL[] NOT NULL
+) ;
+create index if not exists datatable_results_idx on public.datatable_results (id);
+
 
 /* create type public.hnsw_param as (entrypoint int,eplevel int,epvector REAL[],tablename varchar);
 */
@@ -755,6 +763,27 @@ RETURN QUERY SELECT a.neighbour as epoint,a.hnsw_level as elevel
  END;
 $BODY11$ ;
 
+CREATE OR REPLACE PROCEDURE restore_data_index2()
+LANGUAGE plpgsql AS $BODY10$
+BEGIN
+INSERT INTO public.datatable_index select * from public.datatable_index_save where hnsw_level>=1;
+INSERT INTO public.datatable_index select id as id,neighbours[1] as neighbour, 0 as hnsw_level, distances[1] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[2] as neighbour, 0 as hnsw_level, distances[2] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[3] as neighbour, 0 as hnsw_level, distances[3] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[4] as neighbour, 0 as hnsw_level, distances[4] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[5] as neighbour, 0 as hnsw_level, distances[5] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[6] as neighbour, 0 as hnsw_level, distances[6] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[7] as neighbour, 0 as hnsw_level, distances[7] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[8] as neighbour, 0 as hnsw_level, distances[8] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[9] as neighbour, 0 as hnsw_level, distances[9] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[10] as neighbour, 0 as hnsw_level, distances[10] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[11] as neighbour, 0 as hnsw_level, distances[11] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[12] as neighbour, 0 as hnsw_level, distances[12] as distance  from public.datatable_results;
+INSERT INTO public.datatable_index select id as id,neighbours[13] as neighbour, 0 as hnsw_level, distances[13] as distance  from public.datatable_results;
+ANALYZE public.datatable_index;
+END;
+$BODY10$;
+
 
 -- select * from hnsw_get_entrypoint()
 -- drop function hnsw_get_entrypoint()
@@ -767,3 +796,5 @@ $BODY11$ ;
 -- DROP PROCEDURE hnsw_index_test60000(MQuantity INT, efConstruction INT)
 
 -- select unnest(ARRAY[1,2,3]) as neighbour
+-- select id as id,neighbours[1] as neighbour, 0 as hnsw_level, distances[1] as distance  from public.datatable_results
+-- 

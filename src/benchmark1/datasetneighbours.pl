@@ -33,6 +33,7 @@ my $datatest=modules::vectordata->new($datasetname,'test');
 my $datatrain=modules::vectordata->new($datasetname,'train');
 my $datadistances=modules::vectordata->new($datasetname,'distances');
 my $dataneighbours=modules::vectordata->new($datasetname,'neighbors');
+=pod
 for(my $j=0;$j<1;++$j){
 my $testRecord=$datatest->getline_format2($j);
 my $testRecordNeighbours=$dataneighbours->getline_format2($j);
@@ -73,20 +74,21 @@ sub calculateDistances {
     }
     return calculatedDistances;
 }
+=cut
 
-=pod
+
 
 foreach my $algodir (@algodirs) {
  my $algoname=basename($algodir);
- my @benchmarkRecords= (-1); 
- my $queryRecordCount = 10; # query 10 lines, compare with correct lines
- foreach my $i (@benchmarkRecords) {
-  index_and_query_algorithm($algoname,$datasetname,$i,$queryRecordCount);
+ 
+ if($algoname eq 'vectordb'){
+  insert_neighbours_to_algorithm_database($algoname,$datadistances,$dataneighbours);
  }
+ 
 }
 
-sub index_and_query_algorithm {
-    my ($algoname,$datasetname,$numlines,$queryRecordCount) = @_;
+sub insert_neighbours_to_algorithm_database {
+    my ($algoname,$datadistances,$dataneighbours) = @_;
     if(-f $dirname."/algorithm/$algoname/benchmark.pm") {
     if( -f $dirname."/algorithm/$algoname/db.ini") {
         print "$algoname dir ";
@@ -102,48 +104,22 @@ sub index_and_query_algorithm {
 
         my ($class)="$module"->new($config->val("postgresql","dbname"),$config->val("postgresql","user"),$config->val("postgresql","pass"));
         print " , class name >>".$class->name()."<<\n";
+        my $numlines=$datadistances->length();
         {
-            my $data=modules::vectordata->new($datasetname,'train');
-            if($numlines>$data->length()){
-                return 0;
-            }
-            if($numlines == -1) {$numlines=$data->length();}
-            print "Dataset ".$data->width().":".$data->length().", numlines=$numlines\n";
+            #my $data=modules::vectordata->new($datasetname,'train');
+           
+            if($numlines == -1) {$numlines=$datadistances->length();}
+            print "Dataset ".$datadistances->width().":".$datadistances->length().", numlines=$numlines\n";
             # create table and return database connection handler (to decrease waiting time)
             $class->init_connection();
-            $class->init_table($data);
-            $class->drop_index($data); # if init_table does not drop index
-            $logresults->start_benchmark();
-            $class->insert_from_data($data,$numlines);
-            $logresults->end_benchmark();
+            #$class->init_table($data);
+            #$class->drop_index($data); # if init_table does not drop index
+            #$logresults->start_benchmark();
+            insert_results_from_data($class,$algoname,$datadistances,$dataneighbours,$numlines);
+            #$logresults->end_benchmark();
             
  
-            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($data),"");
-            
-            foreach my $indexParam (@$indexParams) {
-                my $parameter={ %$indexParam };
-                # save parameters in the one line string
-                my $text=parameters2text($parameter);
-                print $text."\n";
-                $class->drop_index($data,$parameter);
-                $logresults->start_benchmark();
-                $class->create_index($data,$parameter);
-                $logresults->end_benchmark();
-            
-                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($data),$text);
-                my $datatest=modules::vectordata->new($datasetname,'test');
-                foreach my $queryParam (@$queryParams) {
-                    my $parameter={ %$indexParam, %$queryParam };
-                    # save parameters in the one line string
-                    my $text=parameters2text($parameter);
-                    print "$text\n";
-                    $class->query_parameter_set($parameter);
-                    $logresults->start_benchmark();
-                    my $totalTime=benchmark_query($class,$datatest,$parameter,$queryRecordCount);
-                    $logresults->end_benchmark();
-                    $logresults->logdata( "QUERY",$algoname,$datasetname,$numlines,$datatest->length(),$totalTime,$text);
-                }
-            }       
+            #$logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($data),"");
             
         }
 
@@ -161,6 +137,28 @@ return 0;
  return 1;
 }
 
+sub insert_results_from_data {
+    my ($self, $algoname,$datadistances,$dataneighbours, $totalLines) = @_;
+    my $dbh=$self->{dbh};
+    #my $table = $data->tablename();
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
+        my $sth=$dbh->do("COPY public.datatable_results (id,neighbours,distances) FROM STDIN");
+        for(my $record=0;$record<$totalLines;++$record){
+            my $linen=$dataneighbours->getline_format3($record) ; # {pdlref}->($widthFirst:$widthLast,($record)); $line=~ s/[ ]+/,/g;
+            my $lined=$datadistances->getline_format3($record) ; # {pdlref}->($widthFirst:$widthLast,($record)); $line=~ s/[ ]+/,/g;
+            $dbh->func($record."\t".$linen."\t".$lined."\n", 'putline');
+        }
+        $dbh->func("\\.\n", 'putline');
+        $dbh->func('endcopy');
+        return 1;
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
+=pod
 sub benchmark_query {
     my ($class,$data,$parameter,$queryRecordCount)=@_;
     # init variables
