@@ -41,6 +41,18 @@ my $vectordata = {
         tablename => 'itemsfashionmnist',
         indexname => 'itemsfashionmnist_idx',
         size=>'217M'
+    },
+    'galaxies-3-5000-e' => 
+    {   file => "../../vectordata/galaxies-3-5000-e.hdf5", 
+        type => 'l2', 
+        record=>'train' , 
+        recordtest=>'test',
+        recorddistances=>'distances',
+        recordneighbors=>'neighbors',
+        http=> '',
+        tablename => 'itemsgalaxies',
+        indexname => 'itemsgalaxies_idx',
+        size=>'1M'
     }
 };
 

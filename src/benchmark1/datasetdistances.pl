@@ -62,6 +62,7 @@ print modules::distance::distance('l2',$calculatedDistances,$testRecordDistances
 print " ";
 }
 
+
 sub calculateDistances {
     my ($dataTrain,$neighbours)=@_;
     my $calculatedDistances = pdl(float,[ [ () ]]); # empty column 
