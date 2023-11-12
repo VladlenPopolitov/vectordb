@@ -6,7 +6,8 @@ substrRight <- function(x, n){substr(x, nchar(x)-n+1, nchar(x))}
 
 #datasetName <- "lastfm"
 #datasetName <- "glove-100-a"
-datasetName <- "fashion-mnist-784-e"
+#datasetName <- "fashion-mnist-784-e"
+datasetName <- "galaxies-3-5000-e"
 queryLines <- "10"
 getwd()
 setwd(".")
