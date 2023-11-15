@@ -18,9 +18,9 @@ my (@algodirs)=<$dirname/algorithm/*>;
 my $configAdmin = Config::IniFiles->new( -file => $dirname."/db.ini" );
 
 # read config from db.ini
-my $algorithmIncludeRegex=$configAdmin->val("step1","algorithmIncludeRegex");
+my $algorithmIncludeRegex=$configAdmin->val("step0","algorithmIncludeRegex");
 $algorithmIncludeRegex=".*" unless defined($algorithmIncludeRegex);
-my $algorithmExcludeRegex=$configAdmin->val("step1","algorithmExcludeRegex");
+my $algorithmExcludeRegex=$configAdmin->val("step0","algorithmExcludeRegex");
 $algorithmExcludeRegex="<>" unless defined($algorithmExcludeRegex);
 
 

@@ -4,6 +4,8 @@ use File::Basename;
 use Cwd 'abs_path';
 use Config::IniFiles;
 use Data::Dumper;
+use Time::HiRes qw(time);
+use POSIX qw(strftime);
 
 BEGIN {
 my $dirname = dirname(abs_path(__FILE__));
