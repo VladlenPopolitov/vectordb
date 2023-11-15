@@ -92,6 +92,7 @@ delete from public.galaxies16_test_distances_a;
 INSERT INTO public.galaxies16_train_l2 (id,v,radius) select * from  public.fill_galaxies16f(inTrain,1);
 INSERT INTO public.galaxies16_test_l2 (id,v,radius) select * from  public.fill_galaxies16f(inTest,1);
 -- 3) calculate cosine point from l2 points
+IF 1=0 THEN
 INSERT INTO public.galaxies16_train_a (id,v,radius) 
 select a.id,
 ARRAY[a.v[1]/a.radius,a.v[2]/a.radius,a.v[3]/a.radius,a.v[4]/a.radius,a.v[5]/a.radius,a.v[6]/a.radius,a.v[7]/a.radius,a.v[8]/a.radius,
@@ -104,6 +105,7 @@ select a.id,
 ARRAY[a.v[1]/a.radius,a.v[2]/a.radius,a.v[3]/a.radius,a.v[4]/a.radius,a.v[5]/a.radius,a.v[6]/a.radius,a.v[7]/a.radius,a.v[8]/a.radius,
 a.v[9]/a.radius,a.v[10]/a.radius,a.v[11]/a.radius,a.v[12]/a.radius,a.v[13]/a.radius,a.v[14]/a.radius,a.v[15]/a.radius,a.v[16]/a.radius], 1::REAL
 FROM public.galaxies16_test_l2 as a;
+END IF;
 -- calculate l2 distances amd neighbours
 insert into public.galaxies16_test_distances_l2
 WITH alllines AS (
@@ -116,7 +118,7 @@ ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY a.id,a.distance) as rownum
 	FROM alllines a
 	), allneighbours AS (
 	select a.id,a.v,a.distance,a.neighbour,a.rownum
-	from rownumbers as a  WHERE rownum<=100
+	from rownumbers as a  WHERE rownum<=10
 		)
 	select 	a.id,
 	array_agg(a.distance order by a.rownum) as distances,
@@ -126,6 +128,7 @@ ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY a.id,a.distance) as rownum
 	order by a.id;
 
 --select * from public.galaxies16_test_distances_l2;
+IF 1=0 THEN
 -- calculate cosine distances and neighbours
 insert into public.galaxies16_test_distances_a
 WITH alllines AS (
@@ -139,7 +142,7 @@ ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY a.id,a.distance) as rownum
 	FROM alllines a
 	), allneighbours AS (
 	select a.id,a.v,a.distance,a.neighbour,a.rownum
-	from rownumbers as a  WHERE rownum<=100
+	from rownumbers as a  WHERE rownum<=10
 		)
 	select 	a.id,
 	array_agg(-a.distance order by a.rownum) as distances,
@@ -149,6 +152,7 @@ ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY a.id,a.distance) as rownum
 	order by a.id;
 
 --select * from public.galaxies16_test_distances_a
+END IF;
 END;
 $BODY2$ ;
 
