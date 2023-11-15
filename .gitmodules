@@ -7,3 +7,6 @@
 [submodule "external/lantern"]
 	path = external/lantern
 	url = https://github.com/lanterndata/lantern
+[submodule "external/imgsmlr"]
+	path = external/imgsmlr
+	url = https://github.com/postgrespro/imgsmlr
