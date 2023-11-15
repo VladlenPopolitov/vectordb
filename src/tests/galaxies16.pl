@@ -28,6 +28,7 @@ $newfile->attrSet('point_type' => 'float');
 
 # select vector
 {
+my $i=0;
 my $sth = $dbh->prepare("select a.id,a.v from public.galaxies16_train_$distance as a order by a.id");
 my $x1 ; #=pdl(float,[ [ () ]]);
 $sth->execute();
@@ -42,12 +43,14 @@ while (my @row = $sth->fetchrow_array()) {
           $x1=pdl(float, [ [ ${$row[1]}[0],${$row[1]}[1],${$row[1]}[2]  ]]);      
           
      }
+     ++$i; print "train %i\n" unless ($i%1000);
 }
 my $dataset1=$newfile->dataset("train");
 $dataset1->set($x1,unlimited=>1);
 }
 
 {
+my $i=0;
 my $sth = $dbh->prepare("select a.id,a.v from public.galaxies16_test_$distance as a order by a.id");
 my $x1 ; #=pdl(float,[ [ () ]]);
 $sth->execute();
@@ -63,12 +66,14 @@ while (my @row = $sth->fetchrow_array()) {
           $x1=pdl(float, [ [ ${$row[1]}[0],${$row[1]}[1],${$row[1]}[2]  ]]);      
           
      }
+     ++$i; print "test %i\n" unless ($i%1000);
 }
 my $dataset1=$newfile->dataset("test");
 $dataset1->set($x1,unlimited=>1);
 }
 
 {
+my $i=0;
 my $sth = $dbh->prepare("select a.id,a.neighbours,a.distances from public.galaxies16_test_distances_$distance as a order by a.id");
 my $x1; 
 my $x2;
@@ -87,6 +92,7 @@ while (my @row = $sth->fetchrow_array()) {
           $x2=pdl(float, [ [ @{$row[2]} ]]);      
           
      }
+     ++$i; print "test dist %i\n" unless ($i%1000);
 }
 my $dataset1=$newfile->dataset("neighbors");
 $dataset1->set($x1,unlimited=>1);
