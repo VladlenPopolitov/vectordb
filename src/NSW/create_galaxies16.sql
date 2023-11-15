@@ -156,3 +156,50 @@ END IF;
 END;
 $BODY2$ ;
 
+CREATE OR REPLACE PROCEDURE public.fill_galaxies16_1(inTrain INT, inTest INT) 
+LANGUAGE plpgsql AS $BODY2$
+BEGIN
+
+--1 ) delete all lines 
+delete from public.galaxies16_train_l2;
+delete from public.galaxies16_test_l2;
+delete from public.galaxies16_test_distances_l2;
+delete from public.galaxies16_train_a;
+delete from public.galaxies16_test_a;
+delete from public.galaxies16_test_distances_a;
+-- 2) generate l2 points
+INSERT INTO public.galaxies16_train_l2 (id,v,radius) select * from  public.fill_galaxies16f(inTrain,1);
+INSERT INTO public.galaxies16_test_l2 (id,v,radius) select * from  public.fill_galaxies16f(inTest,1);
+
+
+END;
+$BODY2$ ;
+
+
+CREATE OR REPLACE PROCEDURE public.fill_galaxies16_2(inTrain INT, inTest INT, fromId INT, toId INT) 
+LANGUAGE plpgsql AS $BODY2$
+BEGIN
+
+insert into public.galaxies16_test_distances_l2
+WITH alllines AS (
+select a.id,a.v,l2_distance(a.v::vector,b.v::vector) as distance,b.id as neighbour 
+from public.galaxies16_test_l2 a
+join public.galaxies16_train_l2 b on 1=1 
+where a.id between fromId and toId
+), rownumbers AS (
+select a.id,a.v,a.distance,a.neighbour,
+ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY a.id,a.distance) as rownum
+	FROM alllines a
+	), allneighbours AS (
+	select a.id,a.v,a.distance,a.neighbour,a.rownum
+	from rownumbers as a  WHERE rownum<=10
+		)
+	select 	a.id,
+	array_agg(a.distance order by a.rownum) as distances,
+	array_agg(a.neighbour order by a.rownum) as neighbours
+	from allneighbours as a
+	group by a.id
+	order by a.id;
+
+END;
+$BODY2$ ;
