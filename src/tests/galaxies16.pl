@@ -47,7 +47,7 @@ while (my @row = $sth->fetchrow_array()) {
             ,${$row[1]}[14] ,${$row[1]}[15]  ]]);      
           
      }
-     ++$i; print "train %i\n" unless ($i%1000);
+     ++$i; print "train $i\n" unless ($i%1000);
 }
 my $dataset1=$newfile->dataset("train");
 $dataset1->set($x1,unlimited=>1);
@@ -74,7 +74,7 @@ while (my @row = $sth->fetchrow_array()) {
             ,${$row[1]}[14] ,${$row[1]}[15] ]]);      
           
      }
-     ++$i; print "test %i\n" unless ($i%1000);
+     ++$i; print "test $i\n" unless ($i%1000);
 }
 my $dataset1=$newfile->dataset("test");
 $dataset1->set($x1,unlimited=>1);
@@ -100,7 +100,7 @@ while (my @row = $sth->fetchrow_array()) {
           $x2=pdl(float, [ [ @{$row[2]} ]]);      
           
      }
-     ++$i; print "test dist %i\n" unless ($i%1000);
+     ++$i; print "test dist $i\n" unless ($i%1000);
 }
 my $dataset1=$newfile->dataset("neighbors");
 $dataset1->set($x1,unlimited=>1);
