@@ -92,6 +92,10 @@ cpanm install PDL::IO::HDF5
 
 # Benchmark results:
 
+Dataset galaxies-16-1000000-e (euclidean distance, 16d vectors, 1 mln rows in the dataset, query 10 rows).
+
+![Benchmark](results/galaxies-16-1000000-e/10/benchmark2.png?raw=true "Benchmark")
+
 Dataset lastfm (angular distance, query 10 rows).
 
 ![Benchmark](results/lastfm/10/benchmark.png?raw=true "Benchmark")
