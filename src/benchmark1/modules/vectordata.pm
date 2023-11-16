@@ -49,21 +49,9 @@ my $vectordata = {
         recordtest=>'test',
         recorddistances=>'distances',
         recordneighbors=>'neighbors',
-        http=> '',
+        http=> 'https://github.com/VladlenPopolitov/vectordb/blob/main/vectordata/galaxies-3-5000-e.hdf5',
         tablename => 'itemsgalaxies',
         indexname => 'itemsgalaxies_idx',
-        size=>'1M'
-    },
-    'galaxies-16-5000-e' => 
-    {   file => "../../vectordata/galaxies-16-5000-e.hdf5", 
-        type => 'l2', 
-        record=>'train' , 
-        recordtest=>'test',
-        recorddistances=>'distances',
-        recordneighbors=>'neighbors',
-        http=> '',
-        tablename => 'itemsgalaxies16',
-        indexname => 'itemsgalaxies16_idx',
         size=>'1M'
     },
     'galaxies-16-1000000-e' => 
@@ -73,10 +61,10 @@ my $vectordata = {
         recordtest=>'test',
         recorddistances=>'distances',
         recordneighbors=>'neighbors',
-        http=> '',
+        http=> 'https://github.com/VladlenPopolitov/vectordb/blob/main/vectordata/galaxies-16-1000000-e.hdf5',
         tablename => 'itemsgalaxies16',
         indexname => 'itemsgalaxies16_idx',
-        size=>'1M'
+        size=>'62M'
     }
 };
 

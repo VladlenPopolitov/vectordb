@@ -148,8 +148,7 @@ ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY a.id,a.distance) as rownum
 	array_agg(-a.distance order by a.rownum) as distances,
 	array_agg(a.neighbour order by a.rownum) as neighbours
 	from allneighbours as a
-	group by a.id
-	order by a.id;
+	group by a.id;
 
 --select * from public.galaxies16_test_distances_a
 END IF;
@@ -198,8 +197,8 @@ ROW_NUMBER() OVER (PARTITION BY a.id ORDER BY a.id,a.distance) as rownum
 	array_agg(a.distance order by a.rownum) as distances,
 	array_agg(a.neighbour order by a.rownum) as neighbours
 	from allneighbours as a
-	group by a.id
-	order by a.id;
+	group by a.id;
+	
 
 END;
 $BODY2$ ;

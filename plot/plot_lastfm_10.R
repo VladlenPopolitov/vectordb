@@ -8,7 +8,8 @@ substrRight <- function(x, n){substr(x, nchar(x)-n+1, nchar(x))}
 #datasetName <- "glove-100-a"
 #datasetName <- "fashion-mnist-784-e"
 #datasetName <- "galaxies-3-5000-e"
-datasetName <- "galaxies-16-5000-e"
+#datasetName <- "galaxies-16-5000-e"
+datasetName <- "galaxies-16-1000000-e"
 queryLines <- "10"
 getwd()
 setwd(".")
@@ -62,7 +63,7 @@ resultFiltered<-filter(resultsSorted,Recall>0.4)
 outputFile <- paste(path,"benchmark2.png", sep = "/")
 png(outputFile)
 ggplot(data = resultFiltered,aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=Algorithm)) + ylab("Records Per Second (log10 scale)") +
-  geom_point(mapping = aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=1)) + 
+  geom_point(mapping = aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=1,shape=Algorithm)) + 
   geom_path() +
   geom_point() +
   ggtitle(paste("Dataset: ",datasetName)) +
