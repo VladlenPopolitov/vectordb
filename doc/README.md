@@ -36,5 +36,5 @@
 |flann|FLANN|[https://github.com/mariusmuja/flann](https://github.com/mariusmuja/flann)|C++, interfaces C, MATLAB, Python, and Ruby|memory|3|BSD|
 |faiss-ivfpqfs|HNSW,PQ,GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||3|MIT|
 
-# Image
+# Methods and articles
 ![Articles on methods](https://raw.githubusercontent.com/wiki/facebookresearch/faiss/PQ_variants_Faiss_annotated.png)
