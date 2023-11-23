@@ -30,7 +30,7 @@
 |GlassPy|HNSW,NSG|[https://github.com/zilliztech/pyglass](https://github.com/zilliztech/pyglass)|C++ (Python library)|memory|1|GPL|
 |hnsw(nmslib)|HNSW|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|1|Apache-2.0|
 |NGT-ONNG|ONNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|2|Apache-2.0|
-|ScaNN||[https://github.com/google-research/google-research/tree/master/scann](https://github.com/google-research/google-research/tree/master/scann)|C++, Python interface, (Tensorflow required)|memory?|2|Apache-2.0|
+|ScaNN|AH,bruteforce|[https://github.com/google-research/google-research/tree/master/scann](https://github.com/google-research/google-research/tree/master/scann)|C++, Python interface, (Tensorflow required)|memory?|2|Apache-2.0|
 |Milvus(knowhere)|HNSW, FAISS|[https://github.com/milvus-io/knowhere](https://github.com/milvus-io/knowhere) или [https://github.com/zilliztech/Knowhere](https://github.com/zilliztech/Knowhere)|C++, Python interface|memory?|2|Apache-2.0|
 |DiskANN(vamana)|DiskANN|[https://github.com/microsoft/diskann](https://github.com/microsoft/diskann)|C++, interfaces Python|disk|2|MIT|
 |vearch|HNSW,IVFFLAT,FLAT,BINARYIVF,IVFPQ,GPU|[https://github.com/vearch/vearch](https://github.com/vearch/vearch)|C++, Python interface, (Golang)|disk|2|Apache-2.0|
