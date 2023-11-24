@@ -19,6 +19,8 @@
 |Optimized PQ| “Optimized product quantization”, He & al, CVPR [pdf](http://ieeexplore.ieee.org/abstract/document/6678503/)|2013|
 |GPU| “Billion-scale similarity search with GPUs”, Johnson & al, ArXiv 1702.08734 [pdf](https://arxiv.org/abs/1702.08734)|2017|
 |AH|Ruiqi Guo, Philip Sun, Erik Lindgren, Quan Geng, David Simcha, Felix Chern, and Sanjiv Kumar, Accelerating Large-Scale Inference with Anisotropic Vector Quantization [pdf](https://arxiv.org/pdf/1908.10396.pdf)|2019|
+|MRPT|Ville Hyvo ̈nen, Teemu Pitka ̈nen, Sotiris Tasoulis†, Elias Ja ̈a ̈saari, Risto Tuomainen, Liang Wang, Jukka Corander and Teemu Roos  Fast Nearest Neighbor Search through Sparse Random Projections and Voting [pdf](https://www.cs.helsinki.fi/u/ttonteri/pub/bigdata2016.pdf)|2016|
+|MRPT|Elias Jääsaari, Ville Hyvönen, Teemu Roos Efficient Autotuning of Hyperparameters in Approximate Nearest Neighbor Search [pdf](https://arxiv.org/pdf/1812.07484.pdf)|2019|
 
 
 # Software
@@ -42,6 +44,9 @@
 |SW-graph(nmslib)|3||SW-graph|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
 |hnsw(vespa)|3||HNSW|[https://github.com/vespa-engine/vespa](https://github.com/vespa-engine/vespa)|C++, interfaces Python|memory?|Apache-2.0|
 |RediSearch|3||HNSW|[https://github.com/RediSearch/RediSearch](https://github.com/RediSearch/RediSearch)|REDIS module (C language)|Redis Db|RedisSALv2|
+|hnfw-faiss|4||HNSW, GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
+|mrpt|4|||[https://github.com/vioshyvo/mrpt](https://github.com/vioshyvo/mrpt)|C++, Python interface|memory|MIT|
+
 
 # Methods and articles
 ![Articles on methods](https://raw.githubusercontent.com/wiki/facebookresearch/faiss/PQ_variants_Faiss_annotated.png)
