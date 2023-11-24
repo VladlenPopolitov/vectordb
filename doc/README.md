@@ -24,9 +24,9 @@
 # Software
 |Name|Rank (eucl)|Rank (ang)|Algorithm|Link|Language|Index in memory/on disk|License|
 |----|-----------|----------|---------|----|--------|-----------------------|-------|
-|qsgngt|1||qsgngt, based on NGT-qg、Efanna、SSG|[https://github.com/WPJiang/HWTL_SDU-ANNS](https://github.com/WPJiang/HWTL_SDU-ANNS)|Linux binary lib, Python API|memory|?|
+|qsgngt|1||qsgngt, based on NGT-qg, Efanna, SSG|[https://github.com/WPJiang/HWTL_SDU-ANNS](https://github.com/WPJiang/HWTL_SDU-ANNS)|Linux binary lib, Python API|memory|?|
 |PyNNDescent|1||K-NNG|[https://github.com/lmcinnes/pynndescent/](https://github.com/lmcinnes/pynndescent/)|Python|memory|BSD-2|
-|NGT-qg|1||ONNG,PANNG,ANNGT,ANNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|Apache-2.0|
+|NGT-qg|1||ONNG, PANNG, ANNGT, ANNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|Apache-2.0|
 |NGT-panng|1||PANNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|Apache-2.0|
 |GlassPy|1||HNSW,NSG|[https://github.com/zilliztech/pyglass](https://github.com/zilliztech/pyglass)|C++ (Python library)|memory|GPL|
 |hnsw(nmslib)|1||HNSW|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
@@ -37,7 +37,7 @@
 |vearch|2||HNSW, IVFFLAT, FLAT, BINARYIVF, IVFPQ, GPU|[https://github.com/vearch/vearch](https://github.com/vearch/vearch)|C++, Python interface, (Golang)|disk|Apache-2.0|
 |hnsqlib|2||HNSW|[https://github.com/nmslib/hnsw.git](https://github.com/nmslib/hnsw.git)|C++, Python interface||Apache-2.0|
 |flann|3||FLANN|[https://github.com/mariusmuja/flann](https://github.com/mariusmuja/flann)|C++, interfaces C, MATLAB, Python, and Ruby|memory|BSD|
-|faiss-ivfpqfs|3||HNSW,PQ,GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
+|faiss-ivfpqfs|3||HNSW, PQ, GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
 |n2|3|HNSW||[https://github.com/kakao/n2/](https://github.com/kakao/n2/)|C++, Python interface|memory|Apache-2.0|
 |SW-graph(nmslib)|3||SW-graph|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
 |hnsw(vespa)|3||HNSW|[https://github.com/vespa-engine/vespa](https://github.com/vespa-engine/vespa)|C++, interfaces Python|memory?|Apache-2.0|
