@@ -57,6 +57,7 @@
 |qdrant|5||HNSW|[https://github.com/qdrant/qdrant](https://github.com/qdrant/qdrant), site [https://qdrant.tech](https://qdrant.tech)|Rust|memory/disk|Apache-2.0|
 |annoy|5|||[https://github.com/spotify/annoy](https://github.com/spotify/annoy)|C++, Python interface|disk|Apache-2.0|
 |pgvector|5||HNSW, IVFFLAT|[https://github.com/pgvector/pgvector](https://github.com/pgvector/pgvector)|PostgreSQL extension , C|Postgres DB|Postgres|
+|bruteforce-sklearn|5||bruteforce|[https://scikit-learn.org/stable/](https://scikit-learn.org/stable/)|Python|memory|BSD|
 
 
 
