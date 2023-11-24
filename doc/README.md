@@ -21,7 +21,9 @@
 |AH|Ruiqi Guo, Philip Sun, Erik Lindgren, Quan Geng, David Simcha, Felix Chern, and Sanjiv Kumar, Accelerating Large-Scale Inference with Anisotropic Vector Quantization [pdf](https://arxiv.org/pdf/1908.10396.pdf)|2019|
 |MRPT|Ville Hyvonen, Teemu Pitkanen, Sotiris Tasoulis, Elias Jaasaari, Risto Tuomainen, Liang Wang, Jukka Corander and Teemu Roos  Fast Nearest Neighbor Search through Sparse Random Projections and Voting [pdf](https://www.cs.helsinki.fi/u/ttonteri/pub/bigdata2016.pdf)|2016|
 |MRPT|Elias Jääsaari, Ville Hyvönen, Teemu Roos Efficient Autotuning of Hyperparameters in Approximate Nearest Neighbor Search [pdf](https://arxiv.org/pdf/1812.07484.pdf)|2019|
-
+|IVF| ||
+|FastPQ |Fabien André , Anne-Marie Kermarrec, Nicolas Le Scouarnec Accelerated Nearest Neighbor Search with Quick ADC [pdf](https://arxiv.org/pdf/1704.07355.pdf)|2017|
+|VPTREE (BallTree)|Jeffrey K. Uhlmann Metric trees |1991|
 
 # Software
 |Name|Rank (eucl)|Rank (ang)|Algorithm|Link|Language|Index in memory/on disk|License|
@@ -39,14 +41,21 @@
 |vearch|2||HNSW, IVFFLAT, FLAT, BINARYIVF, IVFPQ, GPU|[https://github.com/vearch/vearch](https://github.com/vearch/vearch)|C++, Python interface, (Golang)|disk|Apache-2.0|
 |hnsqlib|2||HNSW|[https://github.com/nmslib/hnsw.git](https://github.com/nmslib/hnsw.git)|C++, Python interface||Apache-2.0|
 |flann|3||FLANN|[https://github.com/mariusmuja/flann](https://github.com/mariusmuja/flann)|C++, interfaces C, MATLAB, Python, and Ruby|memory|BSD|
-|faiss-ivfpqfs|3||HNSW, PQ, GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
-|n2|3|HNSW||[https://github.com/kakao/n2/](https://github.com/kakao/n2/)|C++, Python interface|memory|Apache-2.0|
+|faiss-ivfpqfs|3||IVF, PQ, GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
+|n2|3||HNSW|[https://github.com/kakao/n2/](https://github.com/kakao/n2/)|C++, Python interface|memory|Apache-2.0|
 |SW-graph(nmslib)|3||SW-graph|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
 |hnsw(vespa)|3||HNSW|[https://github.com/vespa-engine/vespa](https://github.com/vespa-engine/vespa)|C++, interfaces Python|memory?|Apache-2.0|
 |RediSearch|3||HNSW|[https://github.com/RediSearch/RediSearch](https://github.com/RediSearch/RediSearch)|REDIS module (C language)|Redis Db|RedisSALv2|
 |hnfw-faiss|4||HNSW, GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
 |mrpt|4||MRPT|[https://github.com/vioshyvo/mrpt](https://github.com/vioshyvo/mrpt)|C++, Python interface|memory|MIT|
-|vald(NGT-anng)|4||NGT|[https://github.com/vdaas/vald](https://github.com/vdaas/vald)|Golang|?|Apache-2.05|
+|vald(NGT-anng)|4||NGT|[https://github.com/vdaas/vald](https://github.com/vdaas/vald)|Golang|?|Apache-2.0|
+|tinyknn|4||IVF, FastPQ|[https://github.com/thomasahle/tinyknn](https://github.com/thomasahle/tinyknn)|Python|memory|AGPL-3.0|
+|luceneknn|4||HNSW|[https://github.com/apache/lucene](https://github.com/apache/lucene)|Java, interfaces Python|disk|Apache-2.0|
+|weaviate|4||HNSW|[https://github.com/weaviate/weaviate](https://github.com/weaviate/weaviate)|Golang. interfaces Python, Java, JavaScript|?|BSD-3|
+|BallTree(nmslib)|5||VPTREE|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
+|faiss-ivf|5||IVF, GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
+|qdrant|5||HNSW|[https://github.com/qdrant/qdrant](https://github.com/qdrant/qdrant), site [https://qdrant.tech](https://qdrant.tech)|Rust||Apache-2.0|
+
 
 
 # Methods and articles
