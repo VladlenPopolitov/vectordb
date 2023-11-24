@@ -4,6 +4,7 @@
 | ------------- | ------------- | ----|
 | NSW | Yury Malkov , Alexander Ponomarenko , Andrey Logvinov , Vladimir Krylov "Approximate nearest neighbor algorithm based on navigable small world graphs" |2014 |
 | HNSW  |Yu. A. Malkov, D. A. Yashunin "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs"  |2016 |
+| SW-graph |a Small World Graph||
 | DiskANN  |Suhas Jayaram Subramanya, Devvrit, Rohan Kadekodi, Ravishankar Krishaswamy, Harsha Vardhan Simhadri, "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node"  |2019 |
 | K-NNG |Wei Dong, Moses Charikar, Kai Li "Efficient K-Nearest Neighbor Graph Construction for Generic Similarity Measures" |2011|
 |NSG|Cong Fu, Chao Xiang, Changxu Wang, and Deng Cai. Fast approximate nearest neighbor search with the navigating spreading-out graphs.|2019|
@@ -37,6 +38,10 @@
 |hnsqlib|2||HNSW|[https://github.com/nmslib/hnsw.git](https://github.com/nmslib/hnsw.git)|C++, Python interface||Apache-2.0|
 |flann|3||FLANN|[https://github.com/mariusmuja/flann](https://github.com/mariusmuja/flann)|C++, interfaces C, MATLAB, Python, and Ruby|memory|BSD|
 |faiss-ivfpqfs|3||HNSW,PQ,GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
+|n2|3|HNSW||[https://github.com/kakao/n2/](https://github.com/kakao/n2/)|C++, Python interface|memory|Apache-2.0|
+|SW-graph(nmslib)|3||SW-graph|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
+|hnsw(vespa)|3||HNSW|[https://github.com/vespa-engine/vespa](https://github.com/vespa-engine/vespa)|C++, interfaces Python|memory?|Apache-2.0|
+|RediSearch|3||HNSW|[https://github.com/RediSearch/RediSearch](https://github.com/RediSearch/RediSearch)|REDIS module (C language)|Redis Db|RedisSALv2|
 
 # Methods and articles
 ![Articles on methods](https://raw.githubusercontent.com/wiki/facebookresearch/faiss/PQ_variants_Faiss_annotated.png)
