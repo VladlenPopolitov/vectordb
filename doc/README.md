@@ -22,7 +22,7 @@
 
 # Software
 |Name|Rank (eucl)|Rank (ang)|Algorithm|Link|Language|Index in memory/on disk|License|
-|----|---|---|---------|----|--------|-----------------------|----|-------|
+|----|-----------|----------|---------|----|--------|-----------------------|-------|
 |qsgngt|1||qsgngt, based on NGT-qg、Efanna、SSG|[https://github.com/WPJiang/HWTL_SDU-ANNS](https://github.com/WPJiang/HWTL_SDU-ANNS)|Linux binary lib, Python API|memory|?|
 |PyNNDescent|1||K-NNG|[https://github.com/lmcinnes/pynndescent/](https://github.com/lmcinnes/pynndescent/)|Python|memory|BSD-2|
 |NGT-qg|1||ONNG,PANNG,ANNGT,ANNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|Apache-2.0|
