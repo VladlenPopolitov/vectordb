@@ -34,7 +34,7 @@
 |ScaNN|2||AH,bruteforce|[https://github.com/google-research/google-research/tree/master/scann](https://github.com/google-research/google-research/tree/master/scann)|C++, Python interface, (Tensorflow required)|memory?|Apache-2.0|
 |Milvus(knowhere)|2||HNSW, FAISS|[https://github.com/milvus-io/knowhere](https://github.com/milvus-io/knowhere) или [https://github.com/zilliztech/Knowhere](https://github.com/zilliztech/Knowhere)|C++, Python interface|memory?|Apache-2.0|
 |DiskANN(vamana)|2||DiskANN|[https://github.com/microsoft/diskann](https://github.com/microsoft/diskann)|C++, interfaces Python|disk|MIT|
-|vearch|2||HNSW,IVFFLAT,FLAT,BINARYIVF,IVFPQ,GPU|[https://github.com/vearch/vearch](https://github.com/vearch/vearch)|C++, Python interface, (Golang)|disk|Apache-2.0|
+|vearch|2||HNSW, IVFFLAT, FLAT, BINARYIVF, IVFPQ, GPU|[https://github.com/vearch/vearch](https://github.com/vearch/vearch)|C++, Python interface, (Golang)|disk|Apache-2.0|
 |hnsqlib|2||HNSW|[https://github.com/nmslib/hnsw.git](https://github.com/nmslib/hnsw.git)|C++, Python interface||Apache-2.0|
 |flann|3||FLANN|[https://github.com/mariusmuja/flann](https://github.com/mariusmuja/flann)|C++, interfaces C, MATLAB, Python, and Ruby|memory|BSD|
 |faiss-ivfpqfs|3||HNSW,PQ,GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
