@@ -28,10 +28,10 @@
 |PyNNDescent|1||K-NNG|[https://github.com/lmcinnes/pynndescent/](https://github.com/lmcinnes/pynndescent/)|Python|memory|BSD-2|
 |NGT-qg|1||ONNG, PANNG, ANNGT, ANNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|Apache-2.0|
 |NGT-panng|1||PANNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|Apache-2.0|
-|GlassPy|1||HNSW,NSG|[https://github.com/zilliztech/pyglass](https://github.com/zilliztech/pyglass)|C++ (Python library)|memory|GPL|
+|GlassPy|1||HNSW, NSG|[https://github.com/zilliztech/pyglass](https://github.com/zilliztech/pyglass)|C++ (Python library)|memory|GPL|
 |hnsw(nmslib)|1||HNSW|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
 |NGT-ONNG|2||ONNG|[https://github.com/yahoojapan/ngt.git](https://github.com/yahoojapan/ngt.git)|C++, interfaces Python, Ruby, PHP, Rust, Go, C|disk|Apache-2.0|
-|ScaNN|2||AH,bruteforce|[https://github.com/google-research/google-research/tree/master/scann](https://github.com/google-research/google-research/tree/master/scann)|C++, Python interface, (Tensorflow required)|memory?|Apache-2.0|
+|ScaNN|2||AH, bruteforce|[https://github.com/google-research/google-research/tree/master/scann](https://github.com/google-research/google-research/tree/master/scann)|C++, Python interface, (Tensorflow required)|memory?|Apache-2.0|
 |Milvus(knowhere)|2||HNSW, FAISS|[https://github.com/milvus-io/knowhere](https://github.com/milvus-io/knowhere) или [https://github.com/zilliztech/Knowhere](https://github.com/zilliztech/Knowhere)|C++, Python interface|memory?|Apache-2.0|
 |DiskANN(vamana)|2||DiskANN|[https://github.com/microsoft/diskann](https://github.com/microsoft/diskann)|C++, interfaces Python|disk|MIT|
 |vearch|2||HNSW, IVFFLAT, FLAT, BINARYIVF, IVFPQ, GPU|[https://github.com/vearch/vearch](https://github.com/vearch/vearch)|C++, Python interface, (Golang)|disk|Apache-2.0|
