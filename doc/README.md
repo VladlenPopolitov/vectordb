@@ -54,7 +54,10 @@
 |weaviate|4||HNSW|[https://github.com/weaviate/weaviate](https://github.com/weaviate/weaviate)|Golang. interfaces Python, Java, JavaScript|?|BSD-3|
 |BallTree(nmslib)|5||VPTREE|[https://github.com/searchivarius/nmslib.git](https://github.com/searchivarius/nmslib.git)|C++, interfaces Python|memory?|Apache-2.0|
 |faiss-ivf|5||IVF, GPU|[https://github.com/facebookresearch/faiss](https://github.com/facebookresearch/faiss)|C++, Python interface||MIT|
-|qdrant|5||HNSW|[https://github.com/qdrant/qdrant](https://github.com/qdrant/qdrant), site [https://qdrant.tech](https://qdrant.tech)|Rust||Apache-2.0|
+|qdrant|5||HNSW|[https://github.com/qdrant/qdrant](https://github.com/qdrant/qdrant), site [https://qdrant.tech](https://qdrant.tech)|Rust|memory/disk|Apache-2.0|
+|annoy|5|||[https://github.com/spotify/annoy](https://github.com/spotify/annoy)|C++, Python interface|disk|Apache-2.0|
+|pgvector|5||HNSW, IVFFLAT|[https://github.com/pgvector/pgvector](https://github.com/pgvector/pgvector)|PostgreSQL extension , C|Postgres DB|Postgres|
+
 
 
 
