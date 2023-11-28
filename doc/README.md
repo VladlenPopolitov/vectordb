@@ -25,6 +25,9 @@
 |FastPQ |Fabien André , Anne-Marie Kermarrec, Nicolas Le Scouarnec Accelerated Nearest Neighbor Search with Quick ADC [pdf](https://arxiv.org/pdf/1704.07355.pdf)|2017|
 |VPTREE (BallTree)|Jeffrey K. Uhlmann Metric trees |1991|
 |PUFFINN | PUFFINN: Parameterless and Universal Fast FInding of Nearest Neighbors, M. Aumüller, T. Christiani, R. Pagh, and M. Vesterli. ESA 2019 [pdf](https://arxiv.org/pdf/1906.12211.pdf)|2019|
+|CAGRA | Hiroyuki Ootomo, Akira Naruse, Corey Nolet, Ray Wang, Tamas Feher, Yong Wang "CAGRA: Highly Parallel Graph Construction and Approximate Nearest Neighbor Search for GPUs" [pdf](https://arxiv.org/pdf/2308.15136.pdf)|2023|
+| SONG |Weijie Zhao, Shulong Tan and Ping Li  "SONG: Approximate Nearest Neighbor Search on GPU" [pdf](http://research.baidu.com/Public/uploads/5f5c37aa9c37c.pdf)|2020|
+|GGNN|Fabian Groh, Lukas Ruppert, Patrick Wieschollek, and Hendrik Lensch. GGNN: Graph-based GPU Nearest Neighbor Search [pdf](https://arxiv.org/pdf/1912.01059.pdf) |2022|
 # Software
 |Name|Rank (eucl)|Rank (ang)|Algorithm|Link|Language|Index in memory/on disk|License|
 |----|-----------|----------|---------|----|--------|-----------------------|-------|
@@ -59,7 +62,7 @@
 |puffinn||5|PUFFIN|[https://github.com/puffinn/puffinn](https://github.com/puffinn/puffinn)|C++, Python interface|memory|MIT|
 |pgvector|5|5|HNSW, IVFFLAT|[https://github.com/pgvector/pgvector](https://github.com/pgvector/pgvector)|PostgreSQL extension , C|Postgres DB|Postgres|
 |bruteforce-sklearn|5|5|bruteforce|[https://scikit-learn.org/stable/](https://scikit-learn.org/stable/)|Python|memory|BSD|
-
+|Song|||SONG|[https://github.com/sunbelbd/song](https://github.com/sunbelbd/song)|C++, CUDA|GPU|MIT|
 
 
 
