@@ -2,7 +2,9 @@
 
 | Name  | Article authors and title | Year |
 | ------------- | ------------- | ----|
+|Comparison|W. Li, Y. Zhang, Y. Sun, W. Wang, M. Li, W. Zhang, and X. Lin. Approximate nearest neighbor search on high dimensional data - experiments, analyses, and improvement.[pdf](https://arxiv.org/pdf/1610.02455.pdf)|2019|
 |Curse of dimensionality| Kenneth L. Clarkson "An algorithm for approximate closest-point queries" [pdf](https://dl.acm.org/doi/pdf/10.1145/177424.177609)|1994|
+|Curse of dimensionality|Piotr Indyk, Rajeev Motwani "Approximate nearest neighbors: towards removing the curse of dimensionality" [pdf](https://dl.acm.org/doi/pdf/10.1145/276698.276876)|1998|
 | NSW | Yury Malkov , Alexander Ponomarenko , Andrey Logvinov , Vladimir Krylov "Approximate nearest neighbor algorithm based on navigable small world graphs" [pdf](https://publications.hse.ru/pubs/share/folder/x5p6h7thif/128296059.pdf) |2014 |
 | HNSW  |Yu. A. Malkov, D. A. Yashunin "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs" [pdf](https://arxiv.org/pdf/1603.09320.pdf) |2016 |
 | SW-graph |a Small World Graph||
