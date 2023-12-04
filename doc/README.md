@@ -3,6 +3,7 @@
 | Name  | Article authors and title | Year |
 | ------------- | ------------- | ----|
 |Comparison|W. Li, Y. Zhang, Y. Sun, W. Wang, M. Li, W. Zhang, and X. Lin. Approximate nearest neighbor search on high dimensional data - experiments, analyses, and improvement.[pdf](https://arxiv.org/pdf/1610.02455.pdf)|2019|
+|Comparison|Jun Wang, Wei Liu, Sanjiv Kumar, Shih-Fu Chang "Learning to Hash for Indexing Big Data - A Survey" [pdf](https://arxiv.org/pdf/1509.05472.pdf)|2015|
 |Curse of dimensionality| Kenneth L. Clarkson "An algorithm for approximate closest-point queries" [pdf](https://dl.acm.org/doi/pdf/10.1145/177424.177609)|1994|
 |Curse of dimensionality|Piotr Indyk, Rajeev Motwani "Approximate nearest neighbors: towards removing the curse of dimensionality" [pdf](https://dl.acm.org/doi/pdf/10.1145/276698.276876)|1998|
 | NSW | Yury Malkov , Alexander Ponomarenko , Andrey Logvinov , Vladimir Krylov "Approximate nearest neighbor algorithm based on navigable small world graphs" [pdf](https://publications.hse.ru/pubs/share/folder/x5p6h7thif/128296059.pdf) |2014 |
@@ -80,7 +81,7 @@
 |bruteforce-sklearn|5|5|bruteforce|[https://scikit-learn.org/stable/](https://scikit-learn.org/stable/)|Python|memory|BSD|
 |Song|||SONG|[https://github.com/sunbelbd/song](https://github.com/sunbelbd/song)|C++, CUDA|GPU|MIT|
 |Ganns|||GANNS|[https://github.com/yuyuanhang/GANNS](https://github.com/yuyuanhang/GANNS)|C++, CUDA|GPU|?|
-
+|Chroma|||?|[https://github.com/chroma-core/chroma](https://github.com/chroma-core/chroma)|Python, Go|Memory|Apachie-2.0|
 
 # Vector databases
 
@@ -90,8 +91,10 @@
 |Comparison|Andrey Vasnetsov "Vector Search as a dedicated service"||[link](https://qdrant.tech/articles/dedicated-service/#)|
 |Microsoft Azure|Propose PostgreSQL with pgvector extension|PostgreSQL + pgvector||
 |Qdrant|Qdrant “is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload.” You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.|qdrant|[overview](https://qdrant.tech/documentation/overview/)|
-
-#Comparison of vector algorithms
+|Pinecone|The Pinecone Vector Database. Storing and searching through AI representations of your data lets you build search apps that “get it” and chatbots that answer right. Without exposing your data or fine-tuning models.||[link](https://www.pinecone.io/product/)|
+|Milvus|Vector database built for scalable similarity search. Open-source, highly scalable, and blazing fast.|Milvus(knowhere)|[link](https://milvus.io)|
+|Croma|the AI-native open-source embedding database.Chroma is the open-source embedding database. Chroma makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs. |Chroma|[link](https://www.trychroma.com)|
+# Comparison of vector algorithms
 
 |Index type| Characteristics|Use-cases |Advantages | Disadvantages|
 |----------|----------------|----------|-----------|--------------|
