@@ -91,6 +91,15 @@
 |Microsoft Azure|Propose PostgreSQL with pgvector extension|PostgreSQL + pgvector||
 |Qdrant|Qdrant “is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload.” You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.|qdrant|[overview](https://qdrant.tech/documentation/overview/)|
 
+#Comparison of vector algorithms
+
+|Index type| Characteristics|Use-cases |Advantages | Disadvantages|
+|Product Quantization|Divides vectors into smaller parts | Image search|Reduces dimensionality |Lossy compression may reduce accuracy |
+|Locality-Sensitive Hashing| Hashes similar vectors to same buckets| Near-duplicate detection|Enables approximate similarity search |Requires parameter tuning|
+|Hierarchical Navigable Small World|Creates a hierarchical graph | Recommendation systems, text search|Fast neighborhood exploration | Complex index structure, space overhead|
+|R-trees| Hierarchical structure with bounding boxes | Spatial data (geospatial indexing)| Efficient range queries, updates|Slower nearest-neighbor searches  |
+|KD-trees|Binary tree partitioning along dimensions  | Machine learning, clustering| Balanced tree structure, good for low dims|Inefficient in high dimensions, complex build |
+|Random Projection| Projects high-dimensional data randomly|Text classification, clustering |Fast indexing, good for high dimensions |May lose information, requires tuning |
 
 # Methods and articles
 ![Articles on methods](https://raw.githubusercontent.com/wiki/facebookresearch/faiss/PQ_variants_Faiss_annotated.png)
