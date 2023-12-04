@@ -32,7 +32,7 @@
 |PUFFINN | PUFFINN: Parameterless and Universal Fast FInding of Nearest Neighbors, M. Aumüller, T. Christiani, R. Pagh, and M. Vesterli. ESA 2019 [pdf](https://arxiv.org/pdf/1906.12211.pdf)|2019|
 |R-trees|A. Guttman, R-trees: A dynamic index structure for spatial searching [pdf](http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf)|1984|
 |KD-trees|C. Silpa-Anan, R. Hartley, Optimised KD-trees for fast image descriptor matching [pdf](https://users.cecs.anu.edu.au/~hartley/Papers/PDF/SilpaAnan:CVPR08.pdf)|2008|
-|Random projection|[pdf](https://cseweb.ucsd.edu/~dasgupta/papers/rptree-stoc.pdf)|2008|
+|Random projection|Sanjoy Dasgupta, Yoav Freund,  Random projection trees and low dimensional manifolds [pdf](https://cseweb.ucsd.edu/~dasgupta/papers/rptree-stoc.pdf)|2008|
 |LSH|B. Zheng, X. Zhao, L. Weng, N. Q. V. Hung, H. Liu, C. S. Jensen, PM-LSH: A fast and accurate LSH framework for high-dimensional approximate NN search [pdf](https://vbn.aau.dk/ws/portalfiles/portal/391642966/p643_zheng_1_.pdf)|2020|
 
 # GPU used mathematical algorithms
@@ -94,6 +94,9 @@
 |Pinecone|The Pinecone Vector Database. Storing and searching through AI representations of your data lets you build search apps that “get it” and chatbots that answer right. Without exposing your data or fine-tuning models.||[link](https://www.pinecone.io/product/)|
 |Milvus|Vector database built for scalable similarity search. Open-source, highly scalable, and blazing fast.|Milvus(knowhere)|[link](https://milvus.io)|
 |Croma|the AI-native open-source embedding database.Chroma is the open-source embedding database. Chroma makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs. |Chroma|[link](https://www.trychroma.com)|
+|Weaviate|The easiest way to build and scale AI applications. Weaviate is an open source, AI-native vector database that helps developers create intuitive and reliable AI-powered applications.|weaviate|[link](https://weaviate.io)|
+
+
 # Comparison of vector algorithms
 
 |Index type| Characteristics|Use-cases |Advantages | Disadvantages|
