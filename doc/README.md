@@ -19,6 +19,7 @@
 |ANNG|Iwasaki, M.: Proximity search in metric spaces using approximate k nearest neighbor graph (in Japanese). IPSJ Trans. on Database 3(1) (2010) 18-28 [pdf](https://s.yimg.jp/i/docs/research_lab/articles/miwasaki-ipsj-tod-2010.pdf)|2010|
 |FLANN|Marius Muja and David G. Lowe, "Fast Approximate Nearest Neighbors with Automatic Algorithm Configuration", in International Conference on Computer Vision Theory and Applications (VISAPP'09) [pdf](https://www.cs.ubc.ca/research/flann/uploads/FLANN/flann_visapp09.pdf)|2009|
 |PQ|“Product quantization for nearest neighbor search”, Jégou & al., PAMI [pdf](https://inria.hal.science/inria-00514462v2/document)|2011|
+|PQ|T. Ge, K. He, Q. Ke, J. Sun, Optimized product quantization for approximate nearest neighbor search [nolink]()|2013|
 |Optimized PQ| “Optimized product quantization”, He & al, CVPR [pdf](http://ieeexplore.ieee.org/abstract/document/6678503/)|2013|
 |GPU| “Billion-scale similarity search with GPUs”, Johnson & al, ArXiv 1702.08734 [pdf](https://arxiv.org/abs/1702.08734)|2017|
 |AH|Ruiqi Guo, Philip Sun, Erik Lindgren, Quan Geng, David Simcha, Felix Chern, and Sanjiv Kumar, Accelerating Large-Scale Inference with Anisotropic Vector Quantization [pdf](https://arxiv.org/pdf/1908.10396.pdf)|2019|
@@ -28,6 +29,10 @@
 |FastPQ |Fabien André , Anne-Marie Kermarrec, Nicolas Le Scouarnec Accelerated Nearest Neighbor Search with Quick ADC [pdf](https://arxiv.org/pdf/1704.07355.pdf)|2017|
 |VPTREE (BallTree)|Jeffrey K. Uhlmann Metric trees |1991|
 |PUFFINN | PUFFINN: Parameterless and Universal Fast FInding of Nearest Neighbors, M. Aumüller, T. Christiani, R. Pagh, and M. Vesterli. ESA 2019 [pdf](https://arxiv.org/pdf/1906.12211.pdf)|2019|
+|R-trees|A. Guttman, R-trees: A dynamic index structure for spatial searching [pdf](http://www-db.deis.unibo.it/courses/SI-LS/papers/Gut84.pdf)|1984|
+|KD-trees|C. Silpa-Anan, R. Hartley, Optimised KD-trees for fast image descriptor matching [pdf](https://users.cecs.anu.edu.au/~hartley/Papers/PDF/SilpaAnan:CVPR08.pdf)|2008|
+|Random projection|[pdf](https://cseweb.ucsd.edu/~dasgupta/papers/rptree-stoc.pdf)|2008|
+|LSH|B. Zheng, X. Zhao, L. Weng, N. Q. V. Hung, H. Liu, C. S. Jensen, PM-LSH: A fast and accurate LSH framework for high-dimensional approximate NN search [pdf](https://vbn.aau.dk/ws/portalfiles/portal/391642966/p643_zheng_1_.pdf)|2020|
 
 # GPU used mathematical algorithms
 | Name  | Article authors and title | Year |
@@ -37,6 +42,7 @@
 |GGNN|Fabian Groh, Lukas Ruppert, Patrick Wieschollek, and Hendrik Lensch. GGNN: Graph-based GPU Nearest Neighbor Search [pdf](https://arxiv.org/pdf/1912.01059.pdf) |2022|
 |GANNS|Yuanhang Yu, Dong Wen, Ying Zhang, Lu Qin, Wenjie Zhang, and Xuemin Lin. GPU-accelerated Proximity Graph Approximate Nearest Neighbor Search and Construction [html](https://ieeexplore.ieee.org/document/9835618)|2022|
 |NSSG|Cong Fu, Changxu Wang, and Deng Cai. High Dimensional Similarity Search With Satellite System Graph: Efficiency, Scalability, and Unin- dexed Query Compatibility.[pdf](https://arxiv.org/pdf/1907.06146.pdf)|2022|
+
 
 # Software
 |Name|Rank (eucl)|Rank (ang)|Algorithm|Link|Language|Index in memory/on disk|License|
