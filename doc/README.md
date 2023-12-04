@@ -80,8 +80,8 @@
 
 |Name|Description|Software|Link|
 |----|-----------|--------|----|
-|Comparison|Toni Taipalus "Vector database management systems: Fundamental concepts, use-cases, and current challenges" |[pdf](https://arxiv.org/pdf/2309.11322.pdf)|
-|Comparison|Andrey Vasnetsov "Vector Search as a dedicated service"|[link](https://qdrant.tech/articles/dedicated-service/#)|
+|Comparison|Toni Taipalus "Vector database management systems: Fundamental concepts, use-cases, and current challenges" ||[pdf](https://arxiv.org/pdf/2309.11322.pdf)|
+|Comparison|Andrey Vasnetsov "Vector Search as a dedicated service"||[link](https://qdrant.tech/articles/dedicated-service/#)|
 |Microsoft Azure|Propose PostgreSQL with pgvector extension|PostgreSQL + pgvector||
 |Qdrant|Qdrant “is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload.” You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.|qdrant|[overview](https://qdrant.tech/documentation/overview/)|
 
