@@ -82,6 +82,7 @@
 |Song|||SONG|[https://github.com/sunbelbd/song](https://github.com/sunbelbd/song)|C++, CUDA|GPU|MIT|
 |Ganns|||GANNS|[https://github.com/yuyuanhang/GANNS](https://github.com/yuyuanhang/GANNS)|C++, CUDA|GPU|?|
 |Chroma|||?|[https://github.com/chroma-core/chroma](https://github.com/chroma-core/chroma)|Python, Go|Memory|Apachie-2.0|
+|DeepLake|||?|[https://github.com/activeloopai/deeplake](https://github.com/activeloopai/deeplake)|Python|Memory|MPL 2.0|
 
 # Vector databases
 
@@ -90,12 +91,12 @@
 |Comparison|Toni Taipalus "Vector database management systems: Fundamental concepts, use-cases, and current challenges" ||[pdf](https://arxiv.org/pdf/2309.11322.pdf)|
 |Comparison|Andrey Vasnetsov "Vector Search as a dedicated service"||[link](https://qdrant.tech/articles/dedicated-service/#)|
 |Microsoft Azure|Propose PostgreSQL with pgvector extension|PostgreSQL + pgvector||
-|Qdrant|Qdrant “is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload.” You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.|qdrant|[overview](https://qdrant.tech/documentation/overview/)|
-|Pinecone|The Pinecone Vector Database. Storing and searching through AI representations of your data lets you build search apps that “get it” and chatbots that answer right. Without exposing your data or fine-tuning models.||[link](https://www.pinecone.io/product/)|
+|Qdrant|Qdrant “is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload.” You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.|qdrant|[qdrant.tech](https://qdrant.tech/documentation/overview/)|
+|Pinecone|The Pinecone Vector Database. Storing and searching through AI representations of your data lets you build search apps that “get it” and chatbots that answer right. Without exposing your data or fine-tuning models.||[www.pinecone.io](https://www.pinecone.io/product/)|
 |Milvus|Vector database built for scalable similarity search. Open-source, highly scalable, and blazing fast.|Milvus(knowhere)|[link](https://milvus.io)|
-|Croma|the AI-native open-source embedding database.Chroma is the open-source embedding database. Chroma makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs. |Chroma|[link](https://www.trychroma.com)|
-|Weaviate|The easiest way to build and scale AI applications. Weaviate is an open source, AI-native vector database that helps developers create intuitive and reliable AI-powered applications.|weaviate|[link](https://weaviate.io)|
-
+|Croma|The AI-native open-source embedding database. Chroma is the open-source embedding database. Chroma makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs. |Chroma|[www.trychroma.com](https://www.trychroma.com)|
+|Weaviate|The easiest way to build and scale AI applications. Weaviate is an open source, AI-native vector database that helps developers create intuitive and reliable AI-powered applications.|weaviate|[weaviate.io](https://weaviate.io)|
+|Depp Lake |Vector Database for All Data. Deep Lake retains all the features you love from data lakes and need from vector databases. As a result, Deep Lake is explicitly built to store any data (pdfs, vectors, audio, videos, etc.) for AI, works where you do, and allows you not only connect your data to Large Language Models, but also fine-tune them using our best-in-class dataloader for deep learning frameworks. This saves time on building complex data infrastructure, & enables shipping AI products faster than ever.|[github](https://github.com/activeloopai/deeplake)|[www.deeplake.ai](https://www.deeplake.ai)|
 
 # Comparison of vector algorithms
 
