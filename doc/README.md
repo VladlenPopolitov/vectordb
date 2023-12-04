@@ -94,6 +94,7 @@
 #Comparison of vector algorithms
 
 |Index type| Characteristics|Use-cases |Advantages | Disadvantages|
+|----------|----------------|----------|-----------|--------------|
 |Product Quantization|Divides vectors into smaller parts | Image search|Reduces dimensionality |Lossy compression may reduce accuracy |
 |Locality-Sensitive Hashing| Hashes similar vectors to same buckets| Near-duplicate detection|Enables approximate similarity search |Requires parameter tuning|
 |Hierarchical Navigable Small World|Creates a hierarchical graph | Recommendation systems, text search|Fast neighborhood exploration | Complex index structure, space overhead|
