@@ -84,7 +84,7 @@
 |Ganns|||GANNS|[https://github.com/yuyuanhang/GANNS](https://github.com/yuyuanhang/GANNS)|C++, CUDA|GPU|?|
 |Chroma|||?|[https://github.com/chroma-core/chroma](https://github.com/chroma-core/chroma)|Python, Go|Memory|Apachie-2.0|
 |DeepLake|||?|[https://github.com/activeloopai/deeplake](https://github.com/activeloopai/deeplake)|Python|Memory|MPL 2.0|
-|Postges||||[https://dl.acm.org/doi/pdf/10.1145/3318464.3386131](https://dl.acm.org/doi/pdf/10.1145/3318464.3386131)||Disk||
+|Postgres||||[https://dl.acm.org/doi/pdf/10.1145/3318464.3386131](https://dl.acm.org/doi/pdf/10.1145/3318464.3386131)||Disk||
 |FREDDY||||[https://wwwdb.inf.tu-dresden.de/wp-content/uploads/48e25148570cf8f1b6685d3289cf298ebf96.pdf](https://wwwdb.inf.tu-dresden.de/wp-content/uploads/48e25148570cf8f1b6685d3289cf298ebf96.pdf)||Disk||
 |PACE|||IVFFLAT, HNSW|[https://github.com/alipay/PASE](https://github.com/alipay/PASE)||Disk|Not specified|
 
