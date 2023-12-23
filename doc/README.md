@@ -19,14 +19,15 @@
 |ANNGT|Iwasaki, M.: Proximity search using approximate k nearest neighbor graph with a tree structured index (in Japanese). IPSJ Journal 52(2) (2011) 817-828[pdf](https://s.yimg.jp/i/docs/research_lab/articles/miwasaki-ipsj-jnl-2011.pdf)|2011|
 |ANNG|Iwasaki, M.: Proximity search in metric spaces using approximate k nearest neighbor graph (in Japanese). IPSJ Trans. on Database 3(1) (2010) 18-28 [pdf](https://s.yimg.jp/i/docs/research_lab/articles/miwasaki-ipsj-tod-2010.pdf)|2010|
 |FLANN|Marius Muja and David G. Lowe, "Fast Approximate Nearest Neighbors with Automatic Algorithm Configuration", in International Conference on Computer Vision Theory and Applications (VISAPP'09) [pdf](https://www.cs.ubc.ca/research/flann/uploads/FLANN/flann_visapp09.pdf)|2009|
-|PQ|“Product quantization for nearest neighbor search”, Jégou & al., PAMI [pdf](https://inria.hal.science/inria-00514462v2/document)|2011|
+|PQ, IVFADC|“Product quantization for nearest neighbor search”, Jégou & al., PAMI [pdf](https://inria.hal.science/inria-00514462v2/document)|2011|
 |PQ|T. Ge, K. He, Q. Ke, J. Sun, Optimized product quantization for approximate nearest neighbor search [nolink]()|2013|
 |Optimized PQ| “Optimized product quantization”, He & al, CVPR [pdf](http://ieeexplore.ieee.org/abstract/document/6678503/)|2013|
 |GPU| “Billion-scale similarity search with GPUs”, Johnson & al, ArXiv 1702.08734 [pdf](https://arxiv.org/abs/1702.08734)|2017|
 |AH|Ruiqi Guo, Philip Sun, Erik Lindgren, Quan Geng, David Simcha, Felix Chern, and Sanjiv Kumar, Accelerating Large-Scale Inference with Anisotropic Vector Quantization [pdf](https://arxiv.org/pdf/1908.10396.pdf)|2019|
 |MRPT|Ville Hyvonen, Teemu Pitkanen, Sotiris Tasoulis, Elias Jaasaari, Risto Tuomainen, Liang Wang, Jukka Corander and Teemu Roos  Fast Nearest Neighbor Search through Sparse Random Projections and Voting [pdf](https://www.cs.helsinki.fi/u/ttonteri/pub/bigdata2016.pdf)|2016|
 |MRPT|Elias Jääsaari, Ville Hyvönen, Teemu Roos Efficient Autotuning of Hyperparameters in Approximate Nearest Neighbor Search [pdf](https://arxiv.org/pdf/1812.07484.pdf)|2019|
-|IVF| ||
+|IVFFLAT|https://github.com/facebookresearch/faiss/wiki/Faiss-indexes ||
+||||
 |FastPQ |Fabien André , Anne-Marie Kermarrec, Nicolas Le Scouarnec Accelerated Nearest Neighbor Search with Quick ADC [pdf](https://arxiv.org/pdf/1704.07355.pdf)|2017|
 |VPTREE (BallTree)|Jeffrey K. Uhlmann Metric trees |1991|
 |PUFFINN | PUFFINN: Parameterless and Universal Fast FInding of Nearest Neighbors, M. Aumüller, T. Christiani, R. Pagh, and M. Vesterli. ESA 2019 [pdf](https://arxiv.org/pdf/1906.12211.pdf)|2019|
