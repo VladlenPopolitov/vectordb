@@ -11,7 +11,7 @@
 | SW-graph |a Small World Graph||
 | DiskANN  |Suhas Jayaram Subramanya, Devvrit, Rohan Kadekodi, Ravishankar Krishaswamy, Harsha Vardhan Simhadri, "DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node" [pdf](https://suhasjs.github.io/files/diskann_neurips19.pdf) |2019 |
 | K-NNG |Wei Dong, Moses Charikar, Kai Li "Efficient K-Nearest Neighbor Graph Construction for Generic Similarity Measures" [pdf](https://www.cs.princeton.edu/cass/papers/www11.pdf) |2011|
-|NSG|Cong Fu, Chao Xiang, Changxu Wang, and Deng Cai. Fast approximate nearest neighbor search with the navigating spreading-out graphs. [pdf](http://www.vldb.org/pvldb/vol12/p461-fu.pdf)|2019|
+|NSG|Cong Fu, Chao Xiang, Changxu Wang, and Deng Cai. Fast approximate nearest neighbor search with the navigating spreading-out graphs. [pdf](http://www.vldb.org/pvldb/vol12/p461-fu.pdf)  [source code](https://github.com/ZJULearning/nsg)|2019|
 |ONNG|Iwasaki, M., Miyazaki, D.: Optimization of Indexing Based on k-Nearest Neighbor Graph for Proximity. arXiv:1810.07355 [pdf](https://arxiv.org/abs/1810.07355) |2018|
 |PANNG|Iwasaki, M.: Pruned Bi-directed K-nearest Neighbor Graph for Proximity Search. Proc. of SISAP2016 (2016) 20-33[pdf](https://link.springer.com/chapter/10.1007/978-3-319-46759-7_2)|2016|
 |PANNG|Sugawara, K., Kobayashi, H. and Iwasaki, M.: On Approximately Searching for Similar Word Embeddings. Proc. of ACL2016 (2016) 2265-2275 [pdf](https://aclweb.org/anthology/P/P16/P16-1214.pdf)|2016|
