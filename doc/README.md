@@ -35,6 +35,7 @@
 |KD-trees|C. Silpa-Anan, R. Hartley, Optimised KD-trees for fast image descriptor matching [pdf](https://users.cecs.anu.edu.au/~hartley/Papers/PDF/SilpaAnan:CVPR08.pdf)|2008|
 |Random projection|Sanjoy Dasgupta, Yoav Freund,  Random projection trees and low dimensional manifolds [pdf](https://cseweb.ucsd.edu/~dasgupta/papers/rptree-stoc.pdf)|2008|
 |LSH|B. Zheng, X. Zhao, L. Weng, N. Q. V. Hung, H. Liu, C. S. Jensen, PM-LSH: A fast and accurate LSH framework for high-dimensional approximate NN search [pdf](https://vbn.aau.dk/ws/portalfiles/portal/391642966/p643_zheng_1_.pdf)|2020|
+|HM-ANN|H. Larochelle and M. Ranzato and R. Hadsell and M.F. Balcan and H. Lin "Hm-ann: Efficient billion-point nearest neighbor search on heterogeneous memory" [pdf](https://proceedings.neurips.cc/paper/2020/file/788d986905533aba051261497ecffcbb-Paper.pdf)|2020|
 
 # GPU used mathematical algorithms
 | Name  | Article authors and title | Year |
