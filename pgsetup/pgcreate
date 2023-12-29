@@ -1,0 +1,36 @@
+#!/bin/zsh
+source setconfig 
+export POSTGRES_HOME=$HOME/postgres/install/$PG_SET_VERSION/$PG_SET_CONFIG
+export PGDATA=$HOME/postgres/data/$PG_SET_VERSION/$PG_SET_CONFIG
+export PGLOGFILE=$HOME/postgres/log/$PG_SET_VERSION/$PG_SET_CONFIG
+
+if [[ -d postgresql-$PG_SET_VERSION ]]
+then
+cd postgresql-$PG_SET_VERSION
+else
+echo No PostgreSQL source dir. Trying to create it
+
+ if [[ -f postgresql-$PG_SET_VERSION.tar.gz  ]]
+ then
+  tar xvf postgresql-$PG_SET_VERSION.tar.gz 
+  cd postgresql-$PG_SET_VERSION
+ else 
+  wget https://ftp.postgresql.org/pub/source/v$PG_SET_VERSION/postgresql-$PG_SET_VERSION.tar.gz
+  tar xvf postgresql-$PG_SET_VERSION.tar.gz 
+  cd postgresql-$PG_SET_VERSION
+ fi 
+fi
+export PKG_CONFIG_PATH=/opt/homebrew/opt/icu4c/lib/pkgconfig/
+make clean
+if [[ $PG_SET_CONFIG = debug  ]]
+then
+./configure --prefix=$POSTGRES_HOME --enable-debug  --enable-cassert   CFLAGS="-ggdb -O0 -fno-omit-frame-pointer" CPPFLAGS="-g -O0"
+else
+./configure --prefix=$POSTGRES_HOME  
+fi
+make
+export PATH=$POSTGRES_HOME/bin:$PATH
+mkdir -p $PGDATA
+mkdir -p $PGLOGFILE
+make install
+
