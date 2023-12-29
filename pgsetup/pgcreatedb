@@ -1,0 +1,6 @@
+#!/usr/bin/sh
+source setconfig 
+export POSTGRES_HOME=$HOME/postgres/install/$PG_SET_VERSION/$PG_SET_CONFIG
+export PGDATA=$HOME/postgres/data/$PG_SET_VERSION/$PG_SET_CONFIG
+
+$POSTGRES_HOME/bin/initdb -D $PGDATA -U postgres -W
