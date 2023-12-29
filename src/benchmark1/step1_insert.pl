@@ -78,26 +78,33 @@ sub insert_and_index_algorithm {
             # create table and return database connection handler (to decrease waiting time)
             $class->init_connection();
             $class->init_table($data);
+            my $walfrom=$class->wal_position();
             $logresults->start_benchmark();
             $class->insert_from_data($data,$numlines);
             $logresults->end_benchmark();
-            
- 
-            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($data),"");
+            my $walto=$class->wal_position();
+            my $walchange=$class->wal_position_change($walfrom,$walto);
+            $logresults->logdata( "INSERT",$algoname,$datasetname,$numlines,$numlines,$class->table_size($data),"",$data->vectorsize());
+            $logresults->logdata( "INSERTWAL",$algoname,$datasetname,$numlines,$numlines,$walchange,"".$class->table_size($data),$data->vectorsize());
             
             foreach my $indexParam (@$indexParams) {
                 my $parameter={ %$indexParam };
                 # save parameters in the one line string
+                $parameter->{vsize}=$data->vectorsize();
                 my $text =Dumper($parameter);
                 $text=~s/\n| |\t|\;//g;
                 $text=~s/|\$(VAR1)(=)//g;
                 print "$text\n";
                 $class->drop_index($data,$parameter);
+                my $walfrom=$class->wal_position();
                 $logresults->start_benchmark();
                 $class->create_index($data,$parameter);
                 $logresults->end_benchmark();
+                my $walto=$class->wal_position();
+                my $walchange=$class->wal_position_change($walfrom,$walto);
             
-                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($data),$text);
+                $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($data),$text,$data->vectorsize());
+                $logresults->logdata( "INDEXWAL",$algoname,$datasetname,$numlines,$numlines,$walchange,$text,$data->vectorsize());
             }       
             
         }

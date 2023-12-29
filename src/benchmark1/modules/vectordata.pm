@@ -16,6 +16,7 @@ my $vectordata = {
         http=> 'http://ann-benchmarks.com/glove-100-angular.hdf5',
         tablename => 'items2',
         indexname => 'items2_idx',
+        vectorsize => 100 ,
         size=>'463M'
     } ,
     'lastfm' => 
@@ -28,6 +29,7 @@ my $vectordata = {
         http=> 'http://ann-benchmarks.com/lastfm-64-dot.hdf5',
         tablename => 'itemslastfm',
         indexname => 'itemslastfm_idx',
+        vectorsize => 64 ,
         size=>'135M'
     },
     'fashion-mnist-784-e' => 
@@ -40,6 +42,7 @@ my $vectordata = {
         http=> 'http://ann-benchmarks.com/fashion-mnist-784-euclidean.hdf5',
         tablename => 'itemsfashionmnist',
         indexname => 'itemsfashionmnist_idx',
+        vectorsize => 784 ,
         size=>'217M'
     },
     'galaxies-3-5000-e' => 
@@ -52,6 +55,7 @@ my $vectordata = {
         http=> 'https://github.com/VladlenPopolitov/vectordb/raw/main/vectordata/galaxies-3-5000-e.hdf5',
         tablename => 'itemsgalaxies',
         indexname => 'itemsgalaxies_idx',
+        vectorsize => 3 ,
         size=>'1M'
     },
     'galaxies-16-1000000-e' => 
@@ -64,6 +68,7 @@ my $vectordata = {
         http=> 'https://github.com/VladlenPopolitov/vectordb/raw/main/vectordata/galaxies-16-1000000-e.hdf5',
         tablename => 'itemsgalaxies16',
         indexname => 'itemsgalaxies16_idx',
+        vectorsize => 16 ,
         size=>'62M'
     }
 };
@@ -166,6 +171,11 @@ sub width {
 sub length {
     my ($self) = @_;
     return $self->{length};
+}
+
+sub vectorsize {
+    my ($self) = @_;
+    return $vectordata->{$self->{name}}->{vectorsize};
 }
 
 sub distancetype {

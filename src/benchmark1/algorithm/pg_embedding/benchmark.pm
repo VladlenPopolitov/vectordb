@@ -230,4 +230,44 @@ sub query {
     return \@id;
 }
 
+sub wal_position {
+    my ($self) = @_;
+    my $dbh=$self->{dbh};
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
+        
+         my $sth=$dbh->prepare("SELECT pg_current_wal_insert_lsn()");
+         $sth->execute();
+         my @row = $sth->fetchrow_array();
+         if(@row){
+            return $row[0];
+         } else {
+            return '0/0';
+         }
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
+sub wal_position_change {
+    my ($self,$from,$to) = @_;
+    my $dbh=$self->{dbh};
+    if(defined($self->{user}) && defined($self->{password}) && defined($self->{dbname}) ) {
+        #my ($widthFirst,$widthLast)=(0,$pdl->width()-1);
+        
+         my $sth=$dbh->prepare("SELECT pg_wal_lsn_diff('$to','$from')");
+         $sth->execute();
+         my @row = $sth->fetchrow_array();
+         if(@row){
+            return $row[0];
+         } else {
+            return 0;
+         }
+    } else {
+        die "Algorithm ".$self->name()." database credentials not set in db.ini";
+        return 0;
+    }
+}
+
 1;
