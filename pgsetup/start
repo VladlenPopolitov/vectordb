@@ -1,0 +1,8 @@
+#!/usr/bin/sh
+source setconfig 
+export POSTGRES_HOME=$HOME/postgres/install/$PG_SET_VERSION/$PG_SET_CONFIG
+export PGDATA=$HOME/postgres/data/$PG_SET_VERSION/$PG_SET_CONFIG
+export PGLOGFILE=$HOME/postgres/log/$PG_SET_VERSION/$PG_SET_CONFIG
+
+mkdir -p $PGLOGFILE
+$POSTGRES_HOME/bin/pg_ctl -D $PGDATA  -l $PGLOGFILE/logfile start
