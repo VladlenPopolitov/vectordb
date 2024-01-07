@@ -88,6 +88,7 @@
 |Postgres||||[https://dl.acm.org/doi/pdf/10.1145/3318464.3386131](https://dl.acm.org/doi/pdf/10.1145/3318464.3386131)||Disk||
 |FREDDY||||[https://wwwdb.inf.tu-dresden.de/wp-content/uploads/48e25148570cf8f1b6685d3289cf298ebf96.pdf](https://wwwdb.inf.tu-dresden.de/wp-content/uploads/48e25148570cf8f1b6685d3289cf298ebf96.pdf)||Disk||
 |PACE|||IVFFLAT, HNSW|[https://github.com/alipay/PASE](https://github.com/alipay/PASE)||Disk|Not specified|
+|Marqo|||?|[https://github.com/marqo-ai/marqo](https://github.com/marqo-ai/marqo)|Python||Apachue-2.0|
 
 # Vector databases
 
@@ -99,9 +100,10 @@
 |Qdrant|Qdrant “is a vector similarity search engine that provides a production-ready service with a convenient API to store, search, and manage points (i.e. vectors) with an additional payload.” You can think of the payloads as additional pieces of information that can help you hone in on your search and also receive useful information that you can give to your users.|qdrant|[qdrant.tech](https://qdrant.tech/documentation/overview/)|
 |Pinecone|The Pinecone Vector Database. Storing and searching through AI representations of your data lets you build search apps that “get it” and chatbots that answer right. Without exposing your data or fine-tuning models.||[www.pinecone.io](https://www.pinecone.io/product/)|
 |Milvus|Vector database built for scalable similarity search. Open-source, highly scalable, and blazing fast.|Milvus(knowhere)|[link](https://milvus.io)|
-|Croma|The AI-native open-source embedding database. Chroma is the open-source embedding database. Chroma makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs. |Chroma|[www.trychroma.com](https://www.trychroma.com)|
+|Chroma|The AI-native open-source embedding database. Chroma is the open-source embedding database. Chroma makes it easy to build LLM apps by making knowledge, facts, and skills pluggable for LLMs. |Chroma|[www.trychroma.com](https://www.trychroma.com)|
 |Weaviate|The easiest way to build and scale AI applications. Weaviate is an open source, AI-native vector database that helps developers create intuitive and reliable AI-powered applications.|weaviate|[weaviate.io](https://weaviate.io)|
 |Deep Lake |Vector Database for All Data. Deep Lake retains all the features you love from data lakes and need from vector databases. As a result, Deep Lake is explicitly built to store any data (pdfs, vectors, audio, videos, etc.) for AI, works where you do, and allows you not only connect your data to Large Language Models, but also fine-tune them using our best-in-class dataloader for deep learning frameworks. This saves time on building complex data infrastructure, & enables shipping AI products faster than ever.|[github](https://github.com/activeloopai/deeplake)|[www.deeplake.ai](https://www.deeplake.ai)|
+|Marqo|Marqo is more than a vector database, it's an end-to-end vector search engine. Vector generation, storage and retrieval are handled out of the box through a single API. No need to bring your own embeddings.|Marqo|[www.marqo.ai](https://www.marqo.ai)|
 
 # Comparison of vector algorithms
 
