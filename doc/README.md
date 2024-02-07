@@ -89,6 +89,7 @@
 |FREDDY||||[https://wwwdb.inf.tu-dresden.de/wp-content/uploads/48e25148570cf8f1b6685d3289cf298ebf96.pdf](https://wwwdb.inf.tu-dresden.de/wp-content/uploads/48e25148570cf8f1b6685d3289cf298ebf96.pdf)||Disk||
 |PACE|||IVFFLAT, HNSW|[https://github.com/alipay/PASE](https://github.com/alipay/PASE)||Disk|Not specified|
 |Marqo|||?|[https://github.com/marqo-ai/marqo](https://github.com/marqo-ai/marqo)|Python||Apachue-2.0|
+|Usearch|||HNSW|[https://github.com/unum-cloud/usearch#memory-efficiency-downcasting-and-quantization](https://github.com/unum-cloud/usearch#memory-efficiency-downcasting-and-quantization)|C++, Python interface|memory|Apache-2.0|
 
 # Vector databases
 
