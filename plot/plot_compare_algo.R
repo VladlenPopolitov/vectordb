@@ -8,7 +8,7 @@ datasetName <- "fashion-mnist-784-e"
 #datasetName <- "galaxies-16-1000000-e"
 queryLines <- "10"
 getwd()
-setwd(".")
+#setwd("../vectordb/plot")
 #pathToRepoRoot <- "./Development/work/vectordb/vectordb"
 pathToRepoRoot <- "../"
 pathToResultsRoot <- paste(pathToRepoRoot,"results",sep="/")
@@ -53,4 +53,5 @@ print(
     ylab("Queries per second ratio to pgvector: Qgann / Qpgvector")
 )
 dev.off()
+resultsSorted
 

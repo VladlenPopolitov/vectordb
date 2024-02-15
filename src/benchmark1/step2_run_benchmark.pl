@@ -104,11 +104,15 @@ sub index_and_query_algorithm {
                 my $text=parameters2text($parameter);
                 print strftime("%d-%m-%Y %H:%M:%S", localtime($epoch)) . "." . sprintf("%06.0f", $microsecs)." ".$text."\n";
                 $class->drop_index($dataTrain,$parameter);
+                my $walfrom=$class->wal_position();
                 $logresults->start_benchmark();
                 $class->create_index($dataTrain,$parameter);
                 $logresults->end_benchmark();
-            
-                my $indexTime=$logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($dataTrain),$text);
+                my $walto=$class->wal_position();
+                my $walchange=$class->wal_position_change($walfrom,$walto);
+                my $indexTime=
+                    $logresults->logdata( "INDEX",$algoname,$datasetname,$numlines,$numlines,$class->index_size($dataTrain),$text);
+                    $logresults->logdata( "INDEXWAL",$algoname,$datasetname,$numlines,$numlines,$walchange,$text,$dataTrain->vectorsize());
                 my $datatest=modules::vectordata->new($datasetname,'test');
                 foreach my $queryParam (@$queryParams) {
                     my $parameter={ %$indexParam, %$queryParam };
