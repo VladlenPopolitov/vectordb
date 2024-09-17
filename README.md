@@ -86,8 +86,8 @@ pass=userPassword
 ```
 install PDL (Perl Data Language) - packages to read and write HDF5 datasets with sample vectors and benchmark results.
 ```
-cpanm install PDL
-cpanm install PDL::IO::HDF5
+cpan install PDL
+HDF5_LIBDIR=/path_to_libhdf5.a cpan install PDL::IO::HDF5
 ```
 
 # Benchmark results:

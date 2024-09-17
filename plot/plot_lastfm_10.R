@@ -6,14 +6,15 @@ substrRight <- function(x, n){substr(x, nchar(x)-n+1, nchar(x))}
 
 #datasetName <- "lastfm"
 #datasetName <- "glove-100-a"
-#datasetName <- "fashion-mnist-784-e"
+datasetName <- "fashion-mnist-784-e"
 #datasetName <- "galaxies-3-5000-e"
 #datasetName <- "galaxies-16-5000-e"
-datasetName <- "galaxies-16-1000000-e"
+#datasetName <- "galaxies-16-1000000-e"
 queryLines <- "10"
 getwd()
 setwd(".")
-pathToRepoRoot <- "./Development/work/vectordb/vectordb"
+#pathToRepoRoot <- "./Development/work/vectordb/vectordb"
+pathToRepoRoot <- ".."
 pathToResultsRoot <- paste(pathToRepoRoot,"results",sep="/")
 pathToAlgorithmRoot <- paste(pathToResultsRoot,datasetName,sep="/")
 path <- paste(pathToAlgorithmRoot,queryLines,sep="/")
@@ -34,7 +35,7 @@ lantern <- resultsSorted[resultsSorted$Algorithm == 'lantern',]
 lantern
 
 outputFile <- paste(path,"benchmark.png", sep = "/")
-png(outputFile)
+png(outputFile, width=1920, height=1080)
 plot(x=c(0.05,1.1), y=c(1,60000), col="white" ,type = "b",pch=3,log="y",xlab="Recall",ylab="Queries per second")
 
 lines(x=pgvector_hnsw$Recall, y=pgvector_hnsw$RecordsPerSecond, col="red" ,type = "b",pch=1)
@@ -47,7 +48,7 @@ legend(0.06, 20, legend=c("pgvector_hnsw", "pgvector_i", "embedding_pg","lantern
 dev.off()
 
 outputFile <- paste(path,"benchmarkIndex.png", sep = "/")
-png(outputFile)
+png(outputFile, width=1920, height=1080)
 plot(x=c(0.05,1.1), y=c(1,60000), col="white" ,type = "b",pch=3,log="y",xlab="Recall",ylab="Index creation time (seconds)")
 
 lines(x=pgvector_hnsw$Recall, y=pgvector_hnsw$IndexTime, col="red" ,type = "l",pch=1)
@@ -61,11 +62,12 @@ dev.off()
 
 resultFiltered<-filter(resultsSorted,Recall>0.4)
 outputFile <- paste(path,"benchmark2.png", sep = "/")
-png(outputFile)
+png(outputFile, width=1920, height=1080)
 ggplot(data = resultFiltered,aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=Algorithm)) + ylab("Records Per Second (log10 scale)") +
   geom_point(mapping = aes(x = Recall, y = RecordsPerSecond,color=Algorithm,group=1,shape=Algorithm)) + 
   geom_path() +
   geom_point() +
+  geom_line(linetype = "solid", size=2) +
   ggtitle(paste("Dataset: ",datasetName)) +
   scale_y_continuous(trans = 'log10') 
 

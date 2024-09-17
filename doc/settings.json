@@ -1,0 +1,13 @@
+{
+  "embeddings": [
+    {
+      "tensorName": "My tensor",
+      "tensorShape": [
+        30899,
+        768
+      ],
+      "tensorPath": "http://192.168.22.218:80/models/c02.csv",
+      "metadataPath": "http://192.168.22.218:80/models/c02l.csv"
+    }
+  ]
+}
